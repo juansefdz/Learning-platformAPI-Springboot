@@ -12,3 +12,6 @@ entre estudiantes y profesores.
 
 ## Modelo entidad relación propuesto:
 [![https://i.imgur.com/457PYqE.png](https://i.imgur.com/457PYqE.png "https://i.imgur.com/457PYqE.png")](https://i.imgur.com/457PYqE.png "https://i.imgur.com/457PYqE.png")
+
+## Estructura de Proyecto
+[![https://i.imgur.com/UPphEaz.png](https://i.imgur.com/UPphEaz.png "https://i.imgur.com/UPphEaz.png")](https://i.imgur.com/UPphEaz.png "https://i.imgur.com/UPphEaz.png")
