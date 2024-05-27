@@ -37,7 +37,7 @@ public class Submission {
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_assignment_id", referencedColumnName = "lesson_id") 
+    @JoinColumn(name = "fk_assignment_id", referencedColumnName = "assignment_id") 
     private Assignment assignment;
 
 
