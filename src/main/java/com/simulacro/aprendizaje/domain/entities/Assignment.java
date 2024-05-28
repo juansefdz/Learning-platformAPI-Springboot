@@ -1,7 +1,10 @@
 package com.simulacro.aprendizaje.domain.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +27,7 @@ import lombok.NoArgsConstructor;
  @NoArgsConstructor
 public class Assignment {
 
-     @Id
+    @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="assignment_id",length = 11)
     private Long idAssignment;
@@ -41,5 +45,8 @@ public class Assignment {
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "fk_id_lesson", referencedColumnName = "lesson_id") 
     private Lesson lesson;
+
+    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Submission> submissions = new ArrayList<>();
     
 }

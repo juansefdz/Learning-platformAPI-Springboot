@@ -39,6 +39,7 @@ public class Messagge {
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "fk_sender_id", referencedColumnName = "user_id") 
     private UserEntity sender;
+    
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "fk_receiver_id", referencedColumnName = "user_id") 
     private UserEntity receiver;
