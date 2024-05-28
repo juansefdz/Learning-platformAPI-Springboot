@@ -1,6 +1,7 @@
 package com.simulacro.aprendizaje.domain.entities;
 
-import com.simulacro.aprendizaje.api.utils.enums.Role;
+
+import com.simulacro.aprendizaje.utils.enums.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
