@@ -1,5 +1,8 @@
 package com.simulacro.aprendizaje.domain.entities;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +20,9 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @Entity(name="course")
@@ -42,6 +47,11 @@ public class Course {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="fk_id_instructor", referencedColumnName="user_id") 
     private UserEntity instructor;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.REMOVE, orphanRemoval = false)
+    private List<Lesson> lessons;
 
      @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrrollment> enrollments = new ArrayList<>();

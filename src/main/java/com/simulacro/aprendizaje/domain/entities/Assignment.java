@@ -18,7 +18,9 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity(name="assignment")
  @Data
@@ -45,6 +47,11 @@ public class Assignment {
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "fk_id_lesson", referencedColumnName = "lesson_id") 
     private Lesson lesson;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.REMOVE, orphanRemoval = false)
+    private List<Lesson> lessons;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();
