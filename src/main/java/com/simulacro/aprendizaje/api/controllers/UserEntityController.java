@@ -23,15 +23,14 @@ import com.simulacro.aprendizaje.utils.enums.SortType;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping (path = "/user")
+@RequestMapping (path = "/users")
 @AllArgsConstructor
-@Controller
 public class UserEntityController {
 
     @Autowired
     private final IUserEntityService objIUserEntityService;
 
-    
+    @GetMapping
     public ResponseEntity<Page<UserResponse>> getAll(
         @RequestParam(defaultValue ="1") int page,
         @RequestParam(defaultValue="10")int size){
