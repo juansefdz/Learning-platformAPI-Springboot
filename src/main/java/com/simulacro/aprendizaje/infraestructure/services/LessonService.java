@@ -1,42 +1,74 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.LessonRequest;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
+import com.simulacro.aprendizaje.domain.entities.Lesson;
+import com.simulacro.aprendizaje.domain.repositories.LessonRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ILessonService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+import lombok.AllArgsConstructor;
 
-public class LessonService  implements ILessonService{
+@Service
+@AllArgsConstructor
+public class LessonService implements ILessonService {
+
+    @Autowired
+    private final LessonRepository lessonRepository;
 
     @Override
     public Page<LessonResponse> getAll(int page, int size, SortType sortType) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        if (page < 0)
+            page = 0;
+
+        PageRequest pagination = PageRequest.of(page, size);
+        return this.lessonRepository.findAll(pagination).map(this::entityToResponse);
     }
 
     @Override
     public LessonResponse getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        return this.entityToResponse(this.find(id));
     }
 
     @Override
     public LessonResponse create(LessonRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        Lesson lesson = this.requestToEntity(request);
+        return this.entityToResponse(this.lessonRepository.save(lesson));
     }
 
     @Override
     public LessonResponse update(LessonRequest request, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Lesson lesson = this.find(id);
+        lesson = this.requestToEntity(request);
+        lesson.setIdLesson(id);
+        return this.entityToResponse(this.lessonRepository.save(lesson));
     }
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        this.lessonRepository.delete(this.find(id));
     }
-    
+
+    private Lesson find(Long id) {
+        return this.lessonRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User ID not found with this ID: " + id));
+    }
+
+    private LessonResponse entityToResponse(Lesson lesson) {
+        LessonResponse lessonResponse = new LessonResponse();
+        BeanUtils.copyProperties(lesson, lessonResponse);
+        return lessonResponse;
+    }
+
+    private Lesson requestToEntity(LessonRequest request) {
+        Lesson lesson = new Lesson();
+        BeanUtils.copyProperties(request, lesson);
+        return lesson;
+    }
+
 }

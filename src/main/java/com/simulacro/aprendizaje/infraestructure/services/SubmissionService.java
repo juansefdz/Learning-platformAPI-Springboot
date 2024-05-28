@@ -38,5 +38,5 @@ public class SubmissionService implements ISubmissionService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-    
+
 }

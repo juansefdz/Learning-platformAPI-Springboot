@@ -3,7 +3,6 @@ package com.simulacro.aprendizaje.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ import com.simulacro.aprendizaje.utils.enums.SortType;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping (path = "/users")
+@RequestMapping(path = "/users")
 @AllArgsConstructor
 public class UserEntityController {
 
@@ -32,37 +31,35 @@ public class UserEntityController {
 
     @GetMapping
     public ResponseEntity<Page<UserResponse>> getAll(
-        @RequestParam(defaultValue ="1") int page,
-        @RequestParam(defaultValue="10")int size){
-            
-            return ResponseEntity.ok(this.objIUserEntityService.getAll(page -1 , size, SortType.NONE));
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(this.objIUserEntityService.getAll(page - 1, size, SortType.NONE));
     }
 
-    @GetMapping(path="/{id}")
-    public ResponseEntity<UserResponse> getById(@PathVariable Long id){
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<UserResponse> getById(@PathVariable Long id) {
 
         return ResponseEntity.ok(this.objIUserEntityService.getById(id));
     }
-    
-    @PostMapping(path="/create")
-    public ResponseEntity<UserResponse>create(
-        @Validated  @RequestBody UserRequest request){
-            return ResponseEntity.ok(this.objIUserEntityService.create(request));
-        }
 
-    @DeleteMapping(path="/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    @PostMapping(path = "/create")
+    public ResponseEntity<UserResponse> create(
+            @Validated @RequestBody UserRequest request) {
+        return ResponseEntity.ok(this.objIUserEntityService.create(request));
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.objIUserEntityService.delete(id);
-            
+
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path="/update/{id}")
+    @PutMapping(path = "/update/{id}")
     public ResponseEntity<UserResponse> update(
-        @Validated  @RequestBody UserRequest request, @PathVariable Long id){
-            return ResponseEntity.ok(this.objIUserEntityService.update(request,id));
-        }
-    
-
+            @Validated @RequestBody UserRequest request, @PathVariable Long id) {
+        return ResponseEntity.ok(this.objIUserEntityService.update(request, id));
+    }
 
 }

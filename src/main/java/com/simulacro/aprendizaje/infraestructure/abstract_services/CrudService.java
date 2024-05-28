@@ -4,8 +4,7 @@ import org.springframework.data.domain.Page;
 
 import com.simulacro.aprendizaje.utils.enums.SortType;
 
-
-public interface CrudService <REQUEST,RESPONSE,TYPE> {
+public interface CrudService<REQUEST, RESPONSE, TYPE> {
     Page<RESPONSE> getAll(int page, int size, SortType sortType);
 
     RESPONSE getById(TYPE id);
@@ -16,5 +15,4 @@ public interface CrudService <REQUEST,RESPONSE,TYPE> {
 
     void delete(TYPE id);
 
-    
 }

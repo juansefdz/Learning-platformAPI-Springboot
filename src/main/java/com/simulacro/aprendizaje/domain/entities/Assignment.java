@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity(name="assignment")
+@Entity(name = "assignment")
 @Data
 @Builder
 @AllArgsConstructor
@@ -30,18 +30,18 @@ import lombok.ToString;
 public class Assignment {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="assignment_id", length = 11)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "assignment_id", length = 11)
     private Long idAssignment;
 
-    @Column(name="assignment_title", length = 100, nullable=false)
+    @Column(name = "assignment_title", length = 100, nullable = false)
     private String assignmentTitle;
 
-    @Column(name="description")
+    @Column(name = "description")
     @Lob
     private String description;
 
-    @Column(name="due_date")
+    @Column(name = "due_date")
     private Date dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

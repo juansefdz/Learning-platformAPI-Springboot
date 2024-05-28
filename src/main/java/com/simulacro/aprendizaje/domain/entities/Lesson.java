@@ -19,7 +19,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="lesson")
+@Entity(name = "lesson")
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,14 +27,14 @@ import lombok.NoArgsConstructor;
 public class Lesson {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="lesson_id", length = 11)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lesson_id", length = 11)
     private Long idLesson;
 
-    @Column(name="lesson_title", length = 100, nullable=false)
+    @Column(name = "lesson_title", length = 100, nullable = false)
     private String lessonTitle;
 
-    @Column(name="content")
+    @Column(name = "content")
     @Lob
     private String content;
 
@@ -45,4 +45,3 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Assignment> assignments = new ArrayList<>();
 }
-

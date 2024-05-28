@@ -16,8 +16,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Entity(name="messagge")
+@Entity(name = "messagge")
 @Data
 @Builder
 @AllArgsConstructor
@@ -25,15 +24,15 @@ import lombok.NoArgsConstructor;
 public class Messagge {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="message_id", length = 11)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_id", length = 11)
     private Long idMessage;
 
-    @Column(name="message_content")
+    @Column(name = "message_content")
     @Lob
     private String messageContent;
 
-    @Column(name="sent_date")
+    @Column(name = "sent_date")
     private Date sentDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,4 +47,3 @@ public class Messagge {
     @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     private Course course;
 }
-

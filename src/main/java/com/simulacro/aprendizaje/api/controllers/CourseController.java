@@ -22,7 +22,7 @@ import com.simulacro.aprendizaje.utils.enums.SortType;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping (path = "/courses")
+@RequestMapping(path = "/courses")
 @AllArgsConstructor
 public class CourseController {
 
@@ -41,14 +41,13 @@ public class CourseController {
         return ResponseEntity.ok(this.iCourseService.getById(id));
     }
 
-
     @PostMapping(path = "/create")
     public ResponseEntity<CourseResponse> create(
             @Validated @RequestBody CourseRequest request) {
         return ResponseEntity.ok(this.iCourseService.create(request));
     }
 
-     @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.iCourseService.delete(id);
         return ResponseEntity.noContent().build();
@@ -61,5 +60,5 @@ public class CourseController {
             @PathVariable Long id) {
         return ResponseEntity.ok(this.iCourseService.update(request, id));
     }
-    
+
 }

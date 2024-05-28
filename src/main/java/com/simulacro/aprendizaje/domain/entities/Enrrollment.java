@@ -15,7 +15,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="enrrollment")
+@Entity(name = "enrrollment")
 @Data
 @Builder
 @AllArgsConstructor
@@ -23,11 +23,11 @@ import lombok.NoArgsConstructor;
 public class Enrrollment {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="enrollment_id", length = 11)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "enrollment_id", length = 11)
     private Long idEnrollment;
 
-    @Column(name="enrollment_date")
+    @Column(name = "enrollment_date")
     private Date enrollmentDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

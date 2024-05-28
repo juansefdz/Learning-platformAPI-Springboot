@@ -6,8 +6,6 @@ import com.simulacro.aprendizaje.api.dto.request.UserRequest;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse;
 
 @Service
-public interface IUserEntityService extends CrudService<UserRequest, UserResponse, Long>  {
+public interface IUserEntityService extends CrudService<UserRequest, UserResponse, Long> {
 
-
-    
 }

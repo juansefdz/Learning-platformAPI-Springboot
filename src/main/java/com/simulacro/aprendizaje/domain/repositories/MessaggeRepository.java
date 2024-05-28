@@ -4,9 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.simulacro.aprendizaje.domain.entities.Messagge;
 
-
-public interface MessaggeRepository extends JpaRepository <Messagge, Long> {
-
-    
+public interface MessaggeRepository extends JpaRepository<Messagge, Long> {
 
 }

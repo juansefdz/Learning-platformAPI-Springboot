@@ -24,16 +24,16 @@ public class UserEntityService implements IUserEntityService {
 
     @Override
     public Page<UserResponse> getAll(int page, int size, SortType sortType) {
-        if (page <0)
-        page = 0;
+        if (page < 0)
+            page = 0;
 
-        PageRequest pagination = PageRequest.of(page,size);
+        PageRequest pagination = PageRequest.of(page, size);
         return this.userRepository.findAll(pagination).map(this::entityToResponse);
     }
 
     @Override
     public UserResponse getById(Long id) {
-        return this.entityToResponse (this.find(id));
+        return this.entityToResponse(this.find(id));
     }
 
     @Override
@@ -41,13 +41,13 @@ public class UserEntityService implements IUserEntityService {
         UserEntity user = this.requestToEntity(request);
         return this.entityToResponse(this.userRepository.save(user));
     }
-    
+
     @Override
     public UserResponse update(UserRequest request, Long id) {
-       UserEntity user = this.find (id);
-       user = this.requestToEntity(request);
-       user.setIdUser(id);
-       return this.entityToResponse(this.userRepository.save(user));
+        UserEntity user = this.find(id);
+        user = this.requestToEntity(request);
+        user.setIdUser(id);
+        return this.entityToResponse(this.userRepository.save(user));
     }
 
     @Override
@@ -55,23 +55,21 @@ public class UserEntityService implements IUserEntityService {
         this.userRepository.delete(this.find(id));
     }
 
-    
     private UserEntity find(Long id) {
-    return this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("User ID not found with this ID: " + id));
-}
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User ID not found with this ID: " + id));
+    }
 
-
-    private UserResponse entityToResponse (UserEntity entity){
-        UserResponse userResponse= new UserResponse();
+    private UserResponse entityToResponse(UserEntity entity) {
+        UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(entity, userResponse);
         return userResponse;
     }
+
     private UserEntity requestToEntity(UserRequest request) {
-       UserEntity user = new UserEntity();
-       BeanUtils.copyProperties(request, user);
-       return user;
+        UserEntity user = new UserEntity();
+        BeanUtils.copyProperties(request, user);
+        return user;
     }
 
-   
-    
 }

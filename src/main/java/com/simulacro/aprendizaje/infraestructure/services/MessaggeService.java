@@ -7,7 +7,7 @@ import com.simulacro.aprendizaje.api.dto.response.MessaggeResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ImessaggeService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 
-public class MessaggeService implements ImessaggeService{
+public class MessaggeService implements ImessaggeService {
 
     @Override
     public Page<MessaggeResponse> getAll(int page, int size, SortType sortType) {
@@ -38,5 +38,5 @@ public class MessaggeService implements ImessaggeService{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-    
+
 }

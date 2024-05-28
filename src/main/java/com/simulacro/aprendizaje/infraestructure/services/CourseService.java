@@ -18,34 +18,39 @@ import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Enrrollment;
 import com.simulacro.aprendizaje.domain.entities.Lesson;
 import com.simulacro.aprendizaje.domain.entities.Messagge;
+import com.simulacro.aprendizaje.domain.entities.UserEntity;
 import com.simulacro.aprendizaje.domain.repositories.CourseRepository;
+import com.simulacro.aprendizaje.domain.repositories.UserRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ICourseService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
 @Transactional
 @AllArgsConstructor
-public class CourseService implements ICourseService{
+public class CourseService implements ICourseService {
 
     @Autowired
     private final CourseRepository courseRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Page<CourseResponse> getAll(int page, int size, SortType sortType) {
-        if (page <0)
-        page = 0;
+        if (page < 0)
+            page = 0;
 
-        PageRequest pagination = PageRequest.of(page,size);
+        PageRequest pagination = PageRequest.of(page, size);
         return this.courseRepository.findAll(pagination).map(this::entityToResponse);
     }
 
     @Override
     public CourseResponse getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        return this.entityToResponse(this.find(id));
+
     }
 
     @Override
@@ -57,37 +62,35 @@ public class CourseService implements ICourseService{
 
     @Override
     public CourseResponse update(CourseRequest request, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Course course = this.find(id);
+        course = this.requestToEntity(request);
+        course.setIdCourse(id);
+        return this.entityToResponse(this.courseRepository.save(course));
     }
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        this.courseRepository.delete(this.find(id));
     }
 
-
-
-      
     private Course find(Long id) {
-    return this.courseRepository.findById(id).orElseThrow(() -> new RuntimeException("User ID not found with this ID: " + id));
+        return this.courseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("course ID not found with this ID: " + id));
     }
-
 
     private CourseResponse entityToResponse(Course entity) {
         List<EnrollmentResponse> enrollmentResponses = entity.getEnrollments().stream()
                 .map(this::enrollmentToResponse)
                 .collect(Collectors.toList());
-    
+
         List<LessonResponse> lessonResponses = entity.getLessons().stream()
                 .map(this::lessonToResponse)
                 .collect(Collectors.toList());
-    
+
         List<MessaggeResponse> messageResponses = entity.getMessages().stream()
                 .map(this::messageToResponse)
                 .collect(Collectors.toList());
-    
+
         return CourseResponse.builder()
                 .idCourse(entity.getIdCourse())
                 .courseName(entity.getCourseName())
@@ -98,36 +101,39 @@ public class CourseService implements ICourseService{
                 .messages(messageResponses)
                 .build();
     }
-    
 
     private Course requestToEntity(CourseRequest request) {
+
+        UserEntity instructor = userRepository.findById(request.getInstructorId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Instructor not found with ID: " + request.getInstructorId()));
+
         return Course.builder()
-            .courseName(null)
-            .description(null)
-            .instructor(null)
-            .build();
+                .courseName(request.getCourseName())
+                .description(request.getDescription())
+                .instructor(instructor)
+                .build();
     }
 
-    private EnrollmentResponse enrollmentToResponse (Enrrollment entity){
+    private EnrollmentResponse enrollmentToResponse(Enrrollment entity) {
         EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
         BeanUtils.copyProperties(entity, enrollmentResponse);
         return enrollmentResponse;
 
     }
-    private LessonResponse lessonToResponse (Lesson entity){
+
+    private LessonResponse lessonToResponse(Lesson entity) {
         LessonResponse lessonResponse = new LessonResponse();
         BeanUtils.copyProperties(entity, lessonResponse);
         return lessonResponse;
-        
+
     }
 
-    private MessaggeResponse messageToResponse (Messagge entity){
+    private MessaggeResponse messageToResponse(Messagge entity) {
         MessaggeResponse messaggeResponse = new MessaggeResponse();
         BeanUtils.copyProperties(entity, messaggeResponse);
         return messaggeResponse;
-        
+
     }
 
-
-    
 }

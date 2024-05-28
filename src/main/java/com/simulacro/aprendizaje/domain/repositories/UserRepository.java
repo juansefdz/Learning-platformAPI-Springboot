@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository <UserEntity, Long>{
-    
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
 }

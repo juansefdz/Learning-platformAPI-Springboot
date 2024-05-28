@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="submission")
+@Entity(name = "submission")
 @Data
 @Builder
 @AllArgsConstructor
@@ -22,15 +22,15 @@ import lombok.NoArgsConstructor;
 public class Submission {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="submission_id", length = 11)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "submission_id", length = 11)
     private Long idSubmission;
 
-    @Column(name="content")
+    @Column(name = "content")
     @Lob
     private String content;
 
-    @Column(name="grade")
+    @Column(name = "grade")
     private Double grade;
 
     @ManyToOne(fetch = FetchType.LAZY)

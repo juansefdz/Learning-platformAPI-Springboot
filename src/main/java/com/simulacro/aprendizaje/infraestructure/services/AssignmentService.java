@@ -7,7 +7,7 @@ import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IAssignmentService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 
-public class AssignmentService implements IAssignmentService{
+public class AssignmentService implements IAssignmentService {
 
     @Override
     public Page<AssignmentResponse> getAll(int page, int size, SortType sortType) {
@@ -38,5 +38,5 @@ public class AssignmentService implements IAssignmentService{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-    
+
 }

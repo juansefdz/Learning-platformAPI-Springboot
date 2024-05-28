@@ -1,6 +1,5 @@
 package com.simulacro.aprendizaje.domain.entities;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="userEntity")
+@Entity(name = "userEntity")
 @Data
 @Builder
 @AllArgsConstructor
@@ -28,20 +27,20 @@ import lombok.NoArgsConstructor;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="user_id", length = 11)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", length = 11)
     private Long idUser;
 
-    @Column(name="user_name", nullable = false, length = 50)
+    @Column(name = "user_name", nullable = false, length = 50)
     private String userName;
 
-    @Column(name="password", nullable=false, length=255)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Column(name="email", nullable=false, length=100)
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Column(name="full_name", length = 100)
+    @Column(name = "full_name", length = 100)
     private String fullName;
 
     @Column(nullable = false)
@@ -63,5 +62,3 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();
 }
-
-

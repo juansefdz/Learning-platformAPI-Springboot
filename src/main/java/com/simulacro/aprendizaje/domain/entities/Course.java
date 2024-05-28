@@ -19,7 +19,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name="course")
+@Entity(name = "course")
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,19 +27,19 @@ import lombok.NoArgsConstructor;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="course_id", length = 11)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "course_id", length = 11)
     private Long idCourse;
 
-    @Column(name="course_name", length = 100, nullable=false)
+    @Column(name = "course_name", length = 100, nullable = false)
     private String courseName;
 
-    @Column(name="description")
+    @Column(name = "description")
     @Lob
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="instructor_id", referencedColumnName="user_id")
+    @JoinColumn(name = "instructor_id", referencedColumnName = "user_id")
     private UserEntity instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
