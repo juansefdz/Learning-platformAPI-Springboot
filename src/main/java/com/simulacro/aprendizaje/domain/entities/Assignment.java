@@ -23,37 +23,31 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity(name="assignment")
- @Data
- @Builder
- @AllArgsConstructor
- @NoArgsConstructor
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Assignment {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="assignment_id",length = 11)
+    @Column(name="assignment_id", length = 11)
     private Long idAssignment;
 
-    @Column(name="assignment_title", length = 100, nullable=false )
+    @Column(name="assignment_title", length = 100, nullable=false)
     private String assignmentTitle;
 
     @Column(name="description")
     @Lob
     private String description;
 
-    @Column (name="due_date")
+    @Column(name="due_date")
     private Date dueDate;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_id_lesson", referencedColumnName = "lesson_id") 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lesson_id", referencedColumnName = "lesson_id")
     private Lesson lesson;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.REMOVE, orphanRemoval = false)
-    private List<Lesson> lessons;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();
-    
 }

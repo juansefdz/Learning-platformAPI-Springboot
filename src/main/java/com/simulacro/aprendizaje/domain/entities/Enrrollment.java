@@ -16,26 +16,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name="enrrollment")
- @Data
- @Builder
- @AllArgsConstructor
- @NoArgsConstructor
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Enrrollment {
 
-     @Id
+    @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="enrollment_id",length = 11)
+    @Column(name="enrollment_id", length = 11)
     private Long idEnrollment;
 
-    @Column (name="enrollment_date")
-    private Date enrrollmentDate;
+    @Column(name="enrollment_date")
+    private Date enrollmentDate;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_user_id", referencedColumnName = "user_id") 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_course_id", referencedColumnName = "course_id") 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     private Course course;
-    
 }

@@ -18,34 +18,34 @@ import lombok.NoArgsConstructor;
 
 
 @Entity(name="messagge")
- @Data
- @Builder
- @AllArgsConstructor
- @NoArgsConstructor
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Messagge {
 
-     @Id
+    @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="course_id",length = 11)
-    private Long idCourse;
-    
-    @Column(name="message_content" )
-    @Lob
-    private String description;
+    @Column(name="message_id", length = 11)
+    private Long idMessage;
 
-    @Column (name="sent_date")
+    @Column(name="message_content")
+    @Lob
+    private String messageContent;
+
+    @Column(name="sent_date")
     private Date sentDate;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_sender_id", referencedColumnName = "user_id") 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
     private UserEntity sender;
-    
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_receiver_id", referencedColumnName = "user_id") 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
     private UserEntity receiver;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_course_id", referencedColumnName = "course_id") 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     private Course course;
-    
 }
+

@@ -20,32 +20,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name="lesson")
- @Data
- @Builder
- @AllArgsConstructor
- @NoArgsConstructor
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lesson {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="lesson_id")
+    @Column(name="lesson_id", length = 11)
     private Long idLesson;
 
-    @Column(name="lesson_title", length = 100, nullable=false )
+    @Column(name="lesson_title", length = 100, nullable=false)
     private String lessonTitle;
 
-    @Column(name="content",length = 100 )
+    @Column(name="content")
     @Lob
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "fk_course_id", referencedColumnName = "course_id") 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     private Course course;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Assignment> assignments = new ArrayList<>();
-
-
-
-    
 }
+
