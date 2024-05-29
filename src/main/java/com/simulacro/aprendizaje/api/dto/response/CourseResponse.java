@@ -19,6 +19,6 @@ public class CourseResponse {
     private Long instructorId;
     private List<EnrollmentResponse> enrollments;
     private List<LessonResponse> lessons;
-    private List<MessaggeResponse> messages;
+    private List<MessageResponse> messages;
 
 }

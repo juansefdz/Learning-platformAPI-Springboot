@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessaggeResponse {
+public class MessageResponse {
 
     private Long messageId;
     private String messageContent;

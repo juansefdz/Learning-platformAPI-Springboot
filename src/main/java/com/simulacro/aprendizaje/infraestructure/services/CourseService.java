@@ -13,11 +13,11 @@ import com.simulacro.aprendizaje.api.dto.request.CourseRequest;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
 import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
-import com.simulacro.aprendizaje.api.dto.response.MessaggeResponse;
+import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Enrrollment;
 import com.simulacro.aprendizaje.domain.entities.Lesson;
-import com.simulacro.aprendizaje.domain.entities.Messagge;
+import com.simulacro.aprendizaje.domain.entities.Message;
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
 import com.simulacro.aprendizaje.domain.repositories.CourseRepository;
 import com.simulacro.aprendizaje.domain.repositories.UserRepository;
@@ -87,7 +87,7 @@ public class CourseService implements ICourseService {
                 .map(this::lessonToResponse)
                 .collect(Collectors.toList());
 
-        List<MessaggeResponse> messageResponses = entity.getMessages().stream()
+        List<MessageResponse> messageResponses = entity.getMessages().stream()
                 .map(this::messageToResponse)
                 .collect(Collectors.toList());
 
@@ -129,8 +129,8 @@ public class CourseService implements ICourseService {
 
     }
 
-    private MessaggeResponse messageToResponse(Messagge entity) {
-        MessaggeResponse messaggeResponse = new MessaggeResponse();
+    private MessageResponse messageToResponse(Message entity) {
+        MessageResponse messaggeResponse = new MessageResponse();
         BeanUtils.copyProperties(entity, messaggeResponse);
         return messaggeResponse;
 

@@ -16,12 +16,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "messagge")
+@Entity(name = "message")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Messagge {
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

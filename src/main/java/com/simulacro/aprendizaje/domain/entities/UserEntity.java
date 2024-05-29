@@ -54,10 +54,10 @@ public class UserEntity {
     private List<Enrrollment> enrollments = new ArrayList<>();
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Messagge> sentMessages = new ArrayList<>();
+    private List<Message> sentMessages = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Messagge> receivedMessages = new ArrayList<>();
+    private List<Message> receivedMessages = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions = new ArrayList<>();

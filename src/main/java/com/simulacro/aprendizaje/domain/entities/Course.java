@@ -49,5 +49,5 @@ public class Course {
     private List<Lesson> lessons = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Messagge> messages = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 }
