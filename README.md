@@ -1,4 +1,4 @@
-# Simulacro Prueba de desempeño
+# Learning Platform API
 
 ## Introducción
 RIWI está desarrollando una plataforma de aprendizaje en línea para facilitar el acceso a
