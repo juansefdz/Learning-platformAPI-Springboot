@@ -1,5 +1,6 @@
 package com.simulacro.aprendizaje.api.dto.response;
 
+
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -21,5 +22,6 @@ public class CourseResponse {
     private List<EnrollmentResponse> enrollments;
     private List<LessonResponse> lessons;
     private List<MessageResponse> messages;
+   
 
 }

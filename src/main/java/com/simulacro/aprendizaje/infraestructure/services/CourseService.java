@@ -40,8 +40,7 @@ public class CourseService implements ICourseService {
 
     @Override
     public Page<CourseResponse> getAll(int page, int size, SortType sortType) {
-        if (page < 0)
-            page = 0;
+        if (page < 0) page = 0;
 
         PageRequest pagination = PageRequest.of(page, size);
         return this.courseRepository.findAll(pagination).map(this::entityToResponse);
@@ -50,7 +49,6 @@ public class CourseService implements ICourseService {
     @Override
     public CourseResponse getById(Long id) {
         return this.entityToResponse(this.find(id));
-
     }
 
     @Override
@@ -79,31 +77,18 @@ public class CourseService implements ICourseService {
     }
 
     private CourseResponse entityToResponse(Course entity) {
-        List<EnrollmentResponse> enrollmentResponses = entity.getEnrollments().stream()
-                .map(this::enrollmentToResponse)
-                .collect(Collectors.toList());
-
-        List<LessonResponse> lessonResponses = entity.getLessons().stream()
-                .map(this::lessonToResponse)
-                .collect(Collectors.toList());
-
-        List<MessageResponse> messageResponses = entity.getMessages().stream()
-                .map(this::messageToResponse)
-                .collect(Collectors.toList());
-
         return CourseResponse.builder()
                 .idCourse(entity.getIdCourse())
                 .courseName(entity.getCourseName())
                 .description(entity.getDescription())
                 .instructorId(entity.getInstructor().getIdUser())
-                .enrollments(enrollmentResponses)
-                .lessons(lessonResponses)
-                .messages(messageResponses)
+                .enrollments(enrollmentsToResponses(entity.getEnrollments()))
+                .lessons(lessonsToResponses(entity.getLessons()))
+                .messages(messagesToResponses(entity.getMessages()))  
                 .build();
     }
 
     private Course requestToEntity(CourseRequest request) {
-
         UserEntity instructor = userRepository.findById(request.getInstructorId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Instructor not found with ID: " + request.getInstructorId()));
@@ -115,25 +100,40 @@ public class CourseService implements ICourseService {
                 .build();
     }
 
-    private EnrollmentResponse enrollmentToResponse(Enrrollment entity) {
-        EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
-        BeanUtils.copyProperties(entity, enrollmentResponse);
-        return enrollmentResponse;
 
+
+    private List<LessonResponse> lessonsToResponses(List<Lesson> lessons) {
+        return lessons.stream()
+                .map(lesson -> {
+                    LessonResponse lessonResponse = new LessonResponse();
+                    BeanUtils.copyProperties(lesson, lessonResponse);
+                    return lessonResponse;
+                })
+                .collect(Collectors.toList());
     }
 
-    private LessonResponse lessonToResponse(Lesson entity) {
-        LessonResponse lessonResponse = new LessonResponse();
-        BeanUtils.copyProperties(entity, lessonResponse);
-        return lessonResponse;
-
+    private List<EnrollmentResponse> enrollmentsToResponses(List<Enrrollment> enrollments) {
+        return enrollments.stream()
+                .map(enrollment -> {
+                    EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
+                    BeanUtils.copyProperties(enrollment, enrollmentResponse);
+                    return enrollmentResponse;
+                })
+                .collect(Collectors.toList());
     }
 
-    private MessageResponse messageToResponse(Message entity) {
-        MessageResponse messaggeResponse = new MessageResponse();
-        BeanUtils.copyProperties(entity, messaggeResponse);
-        return messaggeResponse;
-
+    private List<MessageResponse> messagesToResponses(List<Message> messages) {
+        return messages.stream()
+                .map(message -> {
+                    MessageResponse messageResponse = new MessageResponse();
+                    BeanUtils.copyProperties(message, messageResponse);
+                    return messageResponse;
+                })
+                .collect(Collectors.toList());
     }
+    
 
+    
+    
+   
 }

@@ -22,11 +22,11 @@ public class UserResponse {
     private String fullName;
     private Role role;
 
-
-    private CourseResponse course;
-    private EnrollmentResponse enrollments;
-    private MessageResponse messages;
-    private SubmissionResponse submission;
+    private List<CourseResponse> courses;
+    private List<EnrollmentResponse> enrollments;
+    private List<MessageResponse> sentMessages;
+    private List<MessageResponse> receivedMessages;
+    private List<SubmissionResponse> submissions;
 
 
    

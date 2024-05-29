@@ -1,6 +1,7 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.UserRequest;
-import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
-import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
-import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
-import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse;
-import com.simulacro.aprendizaje.api.dto.response.UserResponse;
-import com.simulacro.aprendizaje.domain.entities.Course;
-import com.simulacro.aprendizaje.domain.entities.Enrrollment;
-import com.simulacro.aprendizaje.domain.entities.Message;
-import com.simulacro.aprendizaje.domain.entities.Submission;
-import com.simulacro.aprendizaje.domain.entities.UserEntity;
+import com.simulacro.aprendizaje.api.dto.response.*;
+import com.simulacro.aprendizaje.domain.entities.*;
 import com.simulacro.aprendizaje.domain.repositories.UserRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IUserEntityService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
@@ -34,8 +27,7 @@ public class UserEntityService implements IUserEntityService {
 
     @Override
     public Page<UserResponse> getAll(int page, int size, SortType sortType) {
-        if (page < 0)
-            page = 0;
+        if (page < 0) page = 0;
 
         PageRequest pagination = PageRequest.of(page, size);
         return this.userRepository.findAll(pagination).map(this::entityToResponse);
@@ -74,14 +66,13 @@ public class UserEntityService implements IUserEntityService {
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(entity, userResponse);
         
-        userResponse.setCourse(CourseToResponse(entity.getCourses()));
-        userResponse.setEnrollments(EnrollmentToResponse(entity.getEnrollments()));
-        userResponse.setMessages(MessageToResponse(entity.getSentMessages()));  
-        userResponse.setMessages(MessageToResponse(entity.getReceivedMessages()));
-        userResponse.setSubmission(SubmissionToResponse(entity.getSubmissions()));
+        userResponse.setCourses(coursesToResponses(entity.getCourses()));
+        userResponse.setEnrollments(enrollmentsToResponses(entity.getEnrollments()));
+        userResponse.setSentMessages(messagesToResponses(entity.getSentMessages()));
+        userResponse.setReceivedMessages(messagesToResponses(entity.getReceivedMessages()));
+        userResponse.setSubmissions(submissionsToResponses(entity.getSubmissions()));
         return userResponse;
     }
-
 
     private UserEntity requestToEntity(UserRequest request) {
         UserEntity user = new UserEntity();
@@ -89,29 +80,43 @@ public class UserEntityService implements IUserEntityService {
         return user;
     }
 
-
-    private CourseResponse CourseToResponse(List<Course> list) {
-        CourseResponse courseResponse = new CourseResponse();
-        BeanUtils.copyProperties(list, courseResponse);
-        return courseResponse;
-    }
-    private EnrollmentResponse EnrollmentToResponse(List<Enrrollment> list) {
-        EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
-        BeanUtils.copyProperties(list, enrollmentResponse);
-        return enrollmentResponse;
-    }
-    private MessageResponse MessageToResponse(List<Message> list) {
-        MessageResponse messageresponse = new MessageResponse();
-        BeanUtils.copyProperties(list, messageresponse);
-        return messageresponse;
-    }
-    private SubmissionResponse SubmissionToResponse(List<Submission> list) {
-        SubmissionResponse submissionResponse  = new SubmissionResponse();
-        BeanUtils.copyProperties(list, submissionResponse);
-        return submissionResponse;
+    private List<CourseResponse> coursesToResponses(List<Course> courses) {
+        return courses.stream()
+                      .map(course -> {
+                          CourseResponse courseResponse = new CourseResponse();
+                          BeanUtils.copyProperties(course, courseResponse);
+                          return courseResponse;
+                      })
+                      .collect(Collectors.toList());
     }
 
+    private List<EnrollmentResponse> enrollmentsToResponses(List<Enrrollment> enrollments) {
+        return enrollments.stream()
+                          .map(enrollment -> {
+                              EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
+                              BeanUtils.copyProperties(enrollment, enrollmentResponse);
+                              return enrollmentResponse;
+                          })
+                          .collect(Collectors.toList());
+    }
 
+    private List<MessageResponse> messagesToResponses(List<Message> messages) {
+        return messages.stream()
+                       .map(message -> {
+                           MessageResponse messageResponse = new MessageResponse();
+                           BeanUtils.copyProperties(message, messageResponse);
+                           return messageResponse;
+                       })
+                       .collect(Collectors.toList());
+    }
 
-
+    private List<SubmissionResponse> submissionsToResponses(List<Submission> submissions) {
+        return submissions.stream()
+                          .map(submission -> {
+                              SubmissionResponse submissionResponse = new SubmissionResponse();
+                              BeanUtils.copyProperties(submission, submissionResponse);
+                              return submissionResponse;
+                          })
+                          .collect(Collectors.toList());
+    }
 }
