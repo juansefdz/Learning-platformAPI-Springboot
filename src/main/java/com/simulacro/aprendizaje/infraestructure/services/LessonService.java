@@ -1,5 +1,8 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -7,7 +10,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.LessonRequest;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
+import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
+import com.simulacro.aprendizaje.domain.entities.Course;
+import com.simulacro.aprendizaje.domain.entities.Enrrollment;
 import com.simulacro.aprendizaje.domain.entities.Lesson;
 import com.simulacro.aprendizaje.domain.repositories.LessonRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ILessonService;
@@ -60,9 +67,12 @@ public class LessonService implements ILessonService {
     }
 
     private LessonResponse entityToResponse(Lesson lesson) {
-        LessonResponse lessonResponse = new LessonResponse();
-        BeanUtils.copyProperties(lesson, lessonResponse);
-        return lessonResponse;
+        return LessonResponse.builder()
+        .lessonTitle(lesson.getLessonTitle())
+        .content(lesson.getContent())
+        .courses(coursesToResponse(lesson.getCourse()))
+        .assignments(null)
+        .build();
     }
 
     private Lesson requestToEntity(LessonRequest request) {
@@ -70,5 +80,18 @@ public class LessonService implements ILessonService {
         BeanUtils.copyProperties(request, lesson);
         return lesson;
     }
+
+
+    private CourseResponse coursesToResponse(Course entity) {
+        CourseResponse courseResponse = new CourseResponse();
+        BeanUtils.copyProperties(entity, courseResponse);
+        return courseResponse;
+
+    }
+
+
+
+
+
 
 }

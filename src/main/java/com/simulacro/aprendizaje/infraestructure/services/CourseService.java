@@ -14,6 +14,7 @@ import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
 import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
+import com.simulacro.aprendizaje.api.dto.response.UserResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Enrrollment;
 import com.simulacro.aprendizaje.domain.entities.Lesson;
@@ -76,15 +77,15 @@ public class CourseService implements ICourseService {
                 .orElseThrow(() -> new RuntimeException("course ID not found with this ID: " + id));
     }
 
-    private CourseResponse entityToResponse(Course entity) {
+    private CourseResponse entityToResponse(Course course) {
         return CourseResponse.builder()
-                .idCourse(entity.getIdCourse())
-                .courseName(entity.getCourseName())
-                .description(entity.getDescription())
-                .instructorId(entity.getInstructor().getIdUser())
-                .enrollments(enrollmentsToResponses(entity.getEnrollments()))
-                .lessons(lessonsToResponses(entity.getLessons()))
-                .messages(messagesToResponses(entity.getMessages()))  
+                .idCourse(course.getIdCourse())
+                .courseName(course.getCourseName())
+                .description(course.getDescription())
+                .idInstructor(course.getInstructor().getIdUser())
+                .enrollments(enrollmentsToResponses(course.getEnrollments()))
+                .lessons(lessonsToResponses(course.getLessons()))
+                .messages(messagesToResponses(course.getMessages()))  
                 .build();
     }
 
@@ -92,14 +93,17 @@ public class CourseService implements ICourseService {
         UserEntity instructor = userRepository.findById(request.getInstructorId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Instructor not found with ID: " + request.getInstructorId()));
-
-        return Course.builder()
+    
+        Course course = Course.builder()
                 .courseName(request.getCourseName())
                 .description(request.getDescription())
-                .instructor(instructor)
                 .build();
+    
+        course.setInstructor(instructor); 
+    
+        return course;
     }
-
+    
 
 
     private List<LessonResponse> lessonsToResponses(List<Lesson> lessons) {
@@ -128,6 +132,16 @@ public class CourseService implements ICourseService {
                     MessageResponse messageResponse = new MessageResponse();
                     BeanUtils.copyProperties(message, messageResponse);
                     return messageResponse;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<UserResponse> userToResponses(List<UserEntity> users) {
+        return users.stream()
+                .map(user -> {
+                    UserResponse userResponse = new UserResponse();
+                    BeanUtils.copyProperties(user, userResponse);
+                    return userResponse;
                 })
                 .collect(Collectors.toList());
     }

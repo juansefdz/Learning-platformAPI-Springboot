@@ -44,4 +44,5 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Assignment> assignments = new ArrayList<>();
+
 }

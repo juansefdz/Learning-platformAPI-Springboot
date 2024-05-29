@@ -89,7 +89,17 @@ public class UserEntityService implements IUserEntityService {
                       })
                       .collect(Collectors.toList());
     }
-
+    /* 
+    CASO CON BUILDER
+    private List<CourseResponse> coursesToResponses(List<Course> courses) {
+        return courses.stream()
+                      .map(course -> CourseResponse.builder()
+                                                  .courseName(course.getCourseName())
+                                                  .description(course.getDescription())
+                                                  .build())
+                      .collect(Collectors.toList());
+    } */
+    
     private List<EnrollmentResponse> enrollmentsToResponses(List<Enrrollment> enrollments) {
         return enrollments.stream()
                           .map(enrollment -> {

@@ -17,7 +17,7 @@ public class CourseResponse {
     private Long idCourse;
     private String courseName;
     private String description;
-    private Long instructorId;
+    private Long idInstructor;
     
     private List<EnrollmentResponse> enrollments;
     private List<LessonResponse> lessons;

@@ -1,6 +1,7 @@
 package com.simulacro.aprendizaje.api.dto.response;
 
-import com.simulacro.aprendizaje.domain.entities.Course;
+import java.util.List;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,10 @@ public class LessonResponse {
 
     private String lessonTitle;
     private String content;
-    private Course course;
+
+
+    private CourseResponse courses;
+    private List<AssignmentResponse> assignments;
+   
 
 }

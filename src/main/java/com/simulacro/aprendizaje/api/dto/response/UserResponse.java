@@ -17,9 +17,7 @@ public class UserResponse {
 
     private long idUser;
     private String userName;
-    private String password;
     private String email;
-    private String fullName;
     private Role role;
 
     private List<CourseResponse> courses;
