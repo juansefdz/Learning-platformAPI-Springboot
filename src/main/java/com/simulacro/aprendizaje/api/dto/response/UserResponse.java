@@ -2,6 +2,7 @@ package com.simulacro.aprendizaje.api.dto.response;
 
 import java.util.List;
 
+import com.simulacro.aprendizaje.domain.entities.Enrollment;
 import com.simulacro.aprendizaje.utils.enums.Role;
 
 import lombok.AllArgsConstructor;

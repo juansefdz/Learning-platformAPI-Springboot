@@ -44,7 +44,7 @@ public class Course {
     private UserEntity instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrrollment> enrollments = new ArrayList<>();
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons = new ArrayList<>();

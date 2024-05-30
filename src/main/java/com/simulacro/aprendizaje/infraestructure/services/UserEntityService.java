@@ -10,8 +10,23 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.UserRequest;
-import com.simulacro.aprendizaje.api.dto.response.*;
-import com.simulacro.aprendizaje.domain.entities.*;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
+import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
+import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
+import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse;
+import com.simulacro.aprendizaje.api.dto.response.UserResponse;
+import com.simulacro.aprendizaje.domain.entities.Course;
+import com.simulacro.aprendizaje.domain.entities.Enrollment;
+import com.simulacro.aprendizaje.domain.entities.Lesson;
+import com.simulacro.aprendizaje.domain.entities.Message;
+import com.simulacro.aprendizaje.domain.entities.Submission;
+import com.simulacro.aprendizaje.domain.entities.UserEntity;
+import com.simulacro.aprendizaje.domain.repositories.CourseRepository;
+import com.simulacro.aprendizaje.domain.repositories.EnrrollmentRepository;
+import com.simulacro.aprendizaje.domain.repositories.LessonRepository;
+import com.simulacro.aprendizaje.domain.repositories.MessageRepository;
+import com.simulacro.aprendizaje.domain.repositories.SubmissionRepository;
 import com.simulacro.aprendizaje.domain.repositories.UserRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IUserEntityService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
@@ -24,6 +39,21 @@ public class UserEntityService implements IUserEntityService {
 
     @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    private final CourseRepository courseRepository;
+
+    @Autowired
+    private final EnrrollmentRepository enrrollmentRepository;
+
+    @Autowired
+    private final LessonRepository lessonRepository;
+
+    @Autowired
+    private final MessageRepository messageRepository;
+
+    @Autowired
+    private final SubmissionRepository submissionRepository;
 
     @Override
     public Page<UserResponse> getAll(int page, int size, SortType sortType) {
@@ -65,14 +95,14 @@ public class UserEntityService implements IUserEntityService {
     private UserResponse entityToResponse(UserEntity entity) {
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(entity, userResponse);
-        
+
         userResponse.setCourses(coursesToResponses(entity.getCourses()));
         userResponse.setEnrollments(enrollmentsToResponses(entity.getEnrollments()));
         userResponse.setSentMessages(messagesToResponses(entity.getSentMessages()));
         userResponse.setReceivedMessages(messagesToResponses(entity.getReceivedMessages()));
         userResponse.setSubmissions(submissionsToResponses(entity.getSubmissions()));
         userResponse.setLessons(lessonToResponses(entity.getLessons()));
-       
+
         return userResponse;
     }
 
@@ -91,37 +121,31 @@ public class UserEntityService implements IUserEntityService {
                       })
                       .collect(Collectors.toList());
     }
-    /* 
-    CASO CON BUILDER
-    private List<CourseResponse> coursesToResponses(List<Course> courses) {
-        return courses.stream()
-                      .map(course -> CourseResponse.builder()
-                                                  .courseName(course.getCourseName())
-                                                  .description(course.getDescription())
-                                                  .build())
-                      .collect(Collectors.toList());
-    } */
-    
-    private List<EnrollmentResponse> enrollmentsToResponses(List<Enrrollment> enrollments) {
+
+    private List<EnrollmentResponse> enrollmentsToResponses(List<Enrollment> enrollments) {
         return enrollments.stream()
                           .map(enrollment -> {
                               EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
                               BeanUtils.copyProperties(enrollment, enrollmentResponse);
+                              enrollmentResponse.setCourse(courseToResponse(enrollment.getCourse()));
                               return enrollmentResponse;
                           })
                           .collect(Collectors.toList());
     }
 
+    private CourseResponse courseToResponse(Course course) {
+        CourseResponse courseResponse = new CourseResponse();
+        BeanUtils.copyProperties(course, courseResponse);
+        return courseResponse;
+    }
+
     private List<MessageResponse> messagesToResponses(List<Message> messages) {
         return messages.stream()
-                       .map(message -> new MessageResponse(
-                            message.getIdMessage(),
-                            message.getMessageContent(),
-                            message.getSentDate(),
-                            message.getSender().getIdUser(), 
-                            message.getReceiver().getIdUser(), 
-                            message.getCourse().getIdCourse() 
-                       ))
+                       .map(message -> {
+                           MessageResponse messageResponse = new MessageResponse();
+                           BeanUtils.copyProperties(message, messageResponse);
+                           return messageResponse;
+                       })
                        .collect(Collectors.toList());
     }
 
@@ -134,15 +158,14 @@ public class UserEntityService implements IUserEntityService {
                           })
                           .collect(Collectors.toList());
     }
+
     private List<LessonResponse> lessonToResponses(List<Lesson> lessons) {
         return lessons.stream()
-                          .map(lesson -> {
-                                LessonResponse lessonResponse = new LessonResponse();
-                              BeanUtils.copyProperties(lesson, lessonResponse);
-                              return lessonResponse;
-                          })
-                          .collect(Collectors.toList());
+                      .map(lesson -> {
+                          LessonResponse lessonResponse = new LessonResponse();
+                          BeanUtils.copyProperties(lesson, lessonResponse);
+                          return lessonResponse;
+                      })
+                      .collect(Collectors.toList());
     }
-
-    
 }
