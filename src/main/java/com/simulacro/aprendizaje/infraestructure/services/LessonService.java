@@ -69,7 +69,7 @@ public class LessonService implements ILessonService {
         return LessonResponse.builder()
         .lessonTitle(lesson.getLessonTitle())
         .content(lesson.getContent())
-        .courses(coursesToResponse(lesson.getCourse()))
+        //.courses(coursesToResponse(lesson.getCourse()))
         .assignments(null)
         .build();
     }
