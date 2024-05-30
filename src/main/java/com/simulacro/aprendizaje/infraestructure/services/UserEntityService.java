@@ -23,7 +23,6 @@ import com.simulacro.aprendizaje.domain.entities.Message;
 import com.simulacro.aprendizaje.domain.entities.Submission;
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
 import com.simulacro.aprendizaje.domain.repositories.CourseRepository;
-import com.simulacro.aprendizaje.domain.repositories.EnrrollmentRepository;
 import com.simulacro.aprendizaje.domain.repositories.LessonRepository;
 import com.simulacro.aprendizaje.domain.repositories.MessageRepository;
 import com.simulacro.aprendizaje.domain.repositories.SubmissionRepository;
@@ -31,7 +30,9 @@ import com.simulacro.aprendizaje.domain.repositories.UserRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IUserEntityService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+
 
 @Service
 @AllArgsConstructor
@@ -42,9 +43,6 @@ public class UserEntityService implements IUserEntityService {
 
     @Autowired
     private final CourseRepository courseRepository;
-
-    @Autowired
-    private final EnrrollmentRepository enrrollmentRepository;
 
     @Autowired
     private final LessonRepository lessonRepository;
@@ -61,11 +59,6 @@ public class UserEntityService implements IUserEntityService {
 
         PageRequest pagination = PageRequest.of(page, size);
         return this.userRepository.findAll(pagination).map(this::entityToResponse);
-    }
-
-    @Override
-    public UserResponse getById(Long id) {
-        return this.entityToResponse(this.find(id));
     }
 
     @Override
@@ -87,85 +80,102 @@ public class UserEntityService implements IUserEntityService {
         this.userRepository.delete(this.find(id));
     }
 
-    private UserEntity find(Long id) {
-        return this.userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User ID not found with this ID: " + id));
+    @Override
+    public UserResponse getById(Long id) {
+        UserEntity user = find(id);
+        return entityToResponse(user);
     }
 
-    private UserResponse entityToResponse(UserEntity entity) {
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(entity, userResponse);
+    private UserEntity find(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+    }
 
-        userResponse.setCourses(coursesToResponses(entity.getCourses()));
-        userResponse.setEnrollments(enrollmentsToResponses(entity.getEnrollments()));
-        userResponse.setSentMessages(messagesToResponses(entity.getSentMessages()));
-        userResponse.setReceivedMessages(messagesToResponses(entity.getReceivedMessages()));
-        userResponse.setSubmissions(submissionsToResponses(entity.getSubmissions()));
-        userResponse.setLessons(lessonToResponses(entity.getLessons()));
+    private UserResponse entityToResponse(UserEntity user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+
+        userResponse.setEnrollments(enrollmentsToResponses(user.getEnrollments()));
+        userResponse.setSentMessages(messagesToResponses(user.getSentMessages()));
+        userResponse.setReceivedMessages(messagesToResponses(user.getReceivedMessages()));
+        userResponse.setLessons(lessonsToResponses(user.getLessons()));
+        userResponse.setSubmissions(submissionsToResponses(user.getSubmissions()));
 
         return userResponse;
     }
 
-    private UserEntity requestToEntity(UserRequest request) {
-        UserEntity user = new UserEntity();
-        BeanUtils.copyProperties(request, user);
-        return user;
-    }
-
-    private List<CourseResponse> coursesToResponses(List<Course> courses) {
-        return courses.stream()
-                      .map(course -> {
-                          CourseResponse courseResponse = new CourseResponse();
-                          BeanUtils.copyProperties(course, courseResponse);
-                          return courseResponse;
-                      })
-                      .collect(Collectors.toList());
-    }
-
     private List<EnrollmentResponse> enrollmentsToResponses(List<Enrollment> enrollments) {
         return enrollments.stream()
-                          .map(enrollment -> {
-                              EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
-                              BeanUtils.copyProperties(enrollment, enrollmentResponse);
-                              enrollmentResponse.setCourse(courseToResponse(enrollment.getCourse()));
-                              return enrollmentResponse;
-                          })
-                          .collect(Collectors.toList());
+                .map(enrollment -> {
+                    EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
+                    BeanUtils.copyProperties(enrollment, enrollmentResponse);
+
+                    
+                    enrollmentResponse.setUser(userToResponse(enrollment.getUser()));
+                    enrollmentResponse.setCourse(courseToResponse(enrollment.getCourse()));
+                    
+
+                    return enrollmentResponse;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private UserResponse userToResponse(UserEntity user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        
+        return userResponse;
     }
 
     private CourseResponse courseToResponse(Course course) {
         CourseResponse courseResponse = new CourseResponse();
         BeanUtils.copyProperties(course, courseResponse);
+        
         return courseResponse;
     }
 
     private List<MessageResponse> messagesToResponses(List<Message> messages) {
         return messages.stream()
-                       .map(message -> {
-                           MessageResponse messageResponse = new MessageResponse();
-                           BeanUtils.copyProperties(message, messageResponse);
-                           return messageResponse;
-                       })
-                       .collect(Collectors.toList());
+                .map(message -> {
+                    MessageResponse messageResponse = new MessageResponse();
+                    BeanUtils.copyProperties(message, messageResponse);
+                    
+                    messageResponse.setMessageId(message.getIdMessage());
+                    messageResponse.setSenderId(message.getSender().getIdUser());
+                    messageResponse.setReceiverId(message.getReceiver().getIdUser());
+                    messageResponse.setCourseId(message.getCourse().getIdCourse());
+                    messageResponse.setDate(message.getSentDate());
+                    return messageResponse;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<LessonResponse> lessonsToResponses(List<Lesson> lessons) {
+        return lessons.stream()
+                .map(lesson -> {
+                    LessonResponse lessonResponse = new LessonResponse();
+                    BeanUtils.copyProperties(lesson, lessonResponse);
+                    
+                    return lessonResponse;
+                })
+                .collect(Collectors.toList());
     }
 
     private List<SubmissionResponse> submissionsToResponses(List<Submission> submissions) {
         return submissions.stream()
-                          .map(submission -> {
-                              SubmissionResponse submissionResponse = new SubmissionResponse();
-                              BeanUtils.copyProperties(submission, submissionResponse);
-                              return submissionResponse;
-                          })
-                          .collect(Collectors.toList());
+                .map(submission -> {
+                    SubmissionResponse submissionResponse = new SubmissionResponse();
+                    BeanUtils.copyProperties(submission, submissionResponse);
+                    
+                    return submissionResponse;
+                })
+                .collect(Collectors.toList());
     }
 
-    private List<LessonResponse> lessonToResponses(List<Lesson> lessons) {
-        return lessons.stream()
-                      .map(lesson -> {
-                          LessonResponse lessonResponse = new LessonResponse();
-                          BeanUtils.copyProperties(lesson, lessonResponse);
-                          return lessonResponse;
-                      })
-                      .collect(Collectors.toList());
+    private UserEntity requestToEntity(UserRequest request) {
+        UserEntity user = new UserEntity();
+        BeanUtils.copyProperties(request, user);
+    
+        return user;
     }
 }
