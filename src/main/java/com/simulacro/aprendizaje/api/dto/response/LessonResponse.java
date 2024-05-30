@@ -16,9 +16,8 @@ public class LessonResponse {
 
     private String lessonTitle;
     private String content;
-
-    private UserResponse users;
     private CourseResponse courses;
+    private List<UserResponse> users;
     private List<AssignmentResponse> assignments;
    
 
