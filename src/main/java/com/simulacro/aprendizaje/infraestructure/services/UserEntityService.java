@@ -53,11 +53,15 @@ public class UserEntityService implements IUserEntityService {
 
     @Override
     public UserResponse update(UserRequest request, Long id) {
-        UserEntity user = this.find(id);
-        user = this.requestToEntity(request);
-        user.setIdUser(id);
-        return this.entityToResponse(this.userRepository.save(user));
-    }
+    UserEntity user = this.find(id); 
+    
+    
+    user.setUserName(request.getUserName());
+    user.setEmail(request.getEmail());
+    user.setRole(request.getRole());
+
+    return this.entityToResponse(this.userRepository.save(user)); 
+}
 
     @Override
     public void delete(Long id) {
