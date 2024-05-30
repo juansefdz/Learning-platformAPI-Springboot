@@ -3,7 +3,7 @@ package com.simulacro.aprendizaje.infraestructure.services;
 import org.springframework.data.domain.Page;
 
 import com.simulacro.aprendizaje.api.dto.request.AssignmentRequest;
-import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IAssignmentService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.simulacro.aprendizaje.api.dto.request.EnrollmentRequest;
-import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
-import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
-import com.simulacro.aprendizaje.api.dto.response.UserResponse;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
+import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse.EnrollmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.UserResponse.UserResponse;
 import com.simulacro.aprendizaje.domain.entities.Enrollment;
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
 import com.simulacro.aprendizaje.domain.entities.Course;

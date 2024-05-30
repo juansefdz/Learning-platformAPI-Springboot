@@ -1,4 +1,4 @@
-package com.simulacro.aprendizaje.api.dto.response;
+package com.simulacro.aprendizaje.api.dto.response.UserResponse;
 
 import java.util.Date;
 
@@ -7,16 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EnrollmentResponse {
-
+public class EnrollmentResponseInUser {
     private Long idEnrollment;
     private Date enrollmentDate;
-    private UserResponse user;
-    private CourseResponse course;
-
-
+    
 }

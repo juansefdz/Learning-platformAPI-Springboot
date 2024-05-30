@@ -1,4 +1,4 @@
-package com.simulacro.aprendizaje.api.dto.response;
+package com.simulacro.aprendizaje.api.dto.response.MessageResponse;
 
 import java.util.Date;
 

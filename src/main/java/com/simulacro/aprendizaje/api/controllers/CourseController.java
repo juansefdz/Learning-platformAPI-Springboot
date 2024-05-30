@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simulacro.aprendizaje.api.dto.request.CourseRequest;
-import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ICourseService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 

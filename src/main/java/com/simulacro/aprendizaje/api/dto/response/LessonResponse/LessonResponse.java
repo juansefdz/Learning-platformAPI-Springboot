@@ -1,7 +1,10 @@
-package com.simulacro.aprendizaje.api.dto.response;
+package com.simulacro.aprendizaje.api.dto.response.LessonResponse;
 
 import java.util.List;
 
+import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
+import com.simulacro.aprendizaje.api.dto.response.UserResponse.UserResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

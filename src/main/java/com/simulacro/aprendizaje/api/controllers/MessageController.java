@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.simulacro.aprendizaje.api.dto.request.MessageRequest;
-
-import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
-
+import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ImessageService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 

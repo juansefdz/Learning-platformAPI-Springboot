@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simulacro.aprendizaje.api.dto.request.UserRequest;
-import com.simulacro.aprendizaje.api.dto.response.UserResponse;
+import com.simulacro.aprendizaje.api.dto.response.UserResponse.UserResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IUserEntityService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 

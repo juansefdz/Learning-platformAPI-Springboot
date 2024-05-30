@@ -9,9 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.LessonRequest;
-import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
-
-import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
+import com.simulacro.aprendizaje.api.dto.response.LessonResponse.LessonResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
 
 import com.simulacro.aprendizaje.domain.entities.Lesson;

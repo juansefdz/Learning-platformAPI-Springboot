@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.MessageRequest;
-import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
+import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Message;
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
