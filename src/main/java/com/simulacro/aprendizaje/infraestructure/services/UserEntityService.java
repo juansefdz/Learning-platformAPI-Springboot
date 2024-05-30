@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import com.simulacro.aprendizaje.api.dto.request.UserRequest;
 import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
@@ -39,7 +38,8 @@ public class UserEntityService implements IUserEntityService {
 
     @Override
     public Page<UserResponse> getAll(int page, int size, SortType sortType) {
-        if (page < 0) page = 0;
+        if (page < 0)
+            page = 0;
 
         PageRequest pagination = PageRequest.of(page, size);
         return this.userRepository.findAll(pagination).map(this::entityToResponse);
@@ -53,15 +53,23 @@ public class UserEntityService implements IUserEntityService {
 
     @Override
     public UserResponse update(UserRequest request, Long id) {
-    UserEntity user = this.find(id); 
-    
-    
-    user.setUserName(request.getUserName());
-    user.setEmail(request.getEmail());
-    user.setRole(request.getRole());
+        UserEntity user = this.find(id);
 
-    return this.entityToResponse(this.userRepository.save(user)); 
-}
+        if (request.getUserName() != null) {
+            user.setUserName(request.getUserName());
+        }
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+        if (request.getPassword() != null) {
+            user.setPassword(request.getPassword());
+        }
+        if (request.getFullName() != null) {
+            user.setFullName(request.getFullName());
+        }
+
+        return this.entityToResponse(this.userRepository.save(user));
+    }
 
     @Override
     public void delete(Long id) {
@@ -83,17 +91,15 @@ public class UserEntityService implements IUserEntityService {
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
 
-        
         userResponse.setCourses(user.getCourses().stream()
-            .map(this::courseToResponse)
-            .collect(Collectors.toList()));
+                .map(this::courseToResponse)
+                .collect(Collectors.toList()));
 
         userResponse.setEnrollments(enrollmentResponseInUser(user.getEnrollments()));
         userResponse.setLessons(lessonsToResponse(user.getLessons()));
         userResponse.setSubmissions(submissionsToResponses(user.getSubmissions()));
         userResponse.setSentMessages(messagesToResponses(user.getSentMessages()));
         userResponse.setReceivedMessages(messagesToResponses(user.getReceivedMessages()));
-        
 
         return userResponse;
     }
@@ -102,16 +108,14 @@ public class UserEntityService implements IUserEntityService {
         return enrollments.stream()
                 .map(enrollment -> {
                     EnrollmentResponseInUser enrollmentResponseInUser = new EnrollmentResponseInUser();
-                    
+
                     enrollmentResponseInUser.setIdEnrollment(enrollment.getIdEnrollment());
                     enrollmentResponseInUser.setEnrollmentDate(enrollment.getEnrollmentDate());
-        
+
                     return enrollmentResponseInUser;
                 })
                 .collect(Collectors.toList());
     }
-
-    
 
     private CourseResponseInUser courseToResponse(Course course) {
         CourseResponseInUser courseResponseInUser = new CourseResponseInUser();
@@ -144,8 +148,7 @@ public class UserEntityService implements IUserEntityService {
                     BeanUtils.copyProperties(lesson, lessonResponseInUser);
 
                     lessonResponseInUser.setAssignments(assignmentToResponse(lesson.getAssignments()));
-                    
-                    
+
                     return lessonResponseInUser;
                 })
                 .collect(Collectors.toList());
@@ -156,7 +159,7 @@ public class UserEntityService implements IUserEntityService {
                 .map(submission -> {
                     SubmissionResponseInUser submissionResponseInUser = new SubmissionResponseInUser();
                     BeanUtils.copyProperties(submission, submissionResponseInUser);
-                
+
                     return submissionResponseInUser;
                 })
                 .collect(Collectors.toList());
@@ -172,13 +175,10 @@ public class UserEntityService implements IUserEntityService {
                 .collect(Collectors.toList());
     }
 
-   
-
-    
-
     private UserEntity requestToEntity(UserRequest request) {
         UserEntity user = new UserEntity();
         BeanUtils.copyProperties(request, user);
         return user;
     }
+
 }
