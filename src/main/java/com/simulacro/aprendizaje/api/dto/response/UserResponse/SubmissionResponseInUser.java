@@ -1,8 +1,5 @@
 package com.simulacro.aprendizaje.api.dto.response.UserResponse;
 
-import java.util.List;
-
-import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

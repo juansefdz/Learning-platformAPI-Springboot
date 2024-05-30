@@ -11,30 +11,22 @@ import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.UserRequest;
 import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
-import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
-import com.simulacro.aprendizaje.api.dto.response.LessonResponse.LessonResponse;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
-import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse.SubmissionResponse;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.CourseResponseInUser;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.EnrollmentResponseInUser;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.LessonResponseInUser;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.SubmissionResponseInUser;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.UserResponse;
+import com.simulacro.aprendizaje.domain.entities.Assignment;
 import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Enrollment;
 import com.simulacro.aprendizaje.domain.entities.Lesson;
 import com.simulacro.aprendizaje.domain.entities.Message;
 import com.simulacro.aprendizaje.domain.entities.Submission;
-import com.simulacro.aprendizaje.domain.entities.Assignment; 
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
-import com.simulacro.aprendizaje.domain.repositories.CourseRepository;
-import com.simulacro.aprendizaje.domain.repositories.LessonRepository;
-import com.simulacro.aprendizaje.domain.repositories.MessageRepository;
-import com.simulacro.aprendizaje.domain.repositories.SubmissionRepository;
 import com.simulacro.aprendizaje.domain.repositories.UserRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IUserEntityService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 
@@ -115,11 +107,7 @@ public class UserEntityService implements IUserEntityService {
                 .collect(Collectors.toList());
     }
 
-    private UserResponse userToResponse(UserEntity user) {
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
-        return userResponse;
-    }
+    
 
     private CourseResponseInUser courseToResponse(Course course) {
         CourseResponseInUser courseResponseInUser = new CourseResponseInUser();
@@ -150,6 +138,10 @@ public class UserEntityService implements IUserEntityService {
                 .map(lesson -> {
                     LessonResponseInUser lessonResponseInUser = new LessonResponseInUser();
                     BeanUtils.copyProperties(lesson, lessonResponseInUser);
+
+                    lessonResponseInUser.setAssignments(assignmentToResponse(lesson.getAssignments()));
+                    
+                    
                     return lessonResponseInUser;
                 })
                 .collect(Collectors.toList());
@@ -166,11 +158,19 @@ public class UserEntityService implements IUserEntityService {
                 .collect(Collectors.toList());
     }
 
-    private AssignmentResponse assignmentToResponse(Assignment assignment) {
-        AssignmentResponse assignmentResponse = new AssignmentResponse();
-        BeanUtils.copyProperties(assignment, assignmentResponse);
-        return assignmentResponse;
+    private List<AssignmentResponse> assignmentToResponse(List<Assignment> assignments) {
+        return assignments.stream()
+                .map(assignment -> {
+                    AssignmentResponse assignmentResponse = new AssignmentResponse();
+                    BeanUtils.copyProperties(assignment, assignmentResponse);
+                    return assignmentResponse;
+                })
+                .collect(Collectors.toList());
     }
+
+   
+
+    
 
     private UserEntity requestToEntity(UserRequest request) {
         UserEntity user = new UserEntity();
