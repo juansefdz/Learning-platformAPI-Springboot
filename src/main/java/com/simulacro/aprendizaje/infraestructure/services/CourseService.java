@@ -14,7 +14,6 @@ import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
 import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
-import com.simulacro.aprendizaje.api.dto.response.UserResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Enrrollment;
 import com.simulacro.aprendizaje.domain.entities.Lesson;
@@ -136,15 +135,7 @@ public class CourseService implements ICourseService {
                 .collect(Collectors.toList());
     }
 
-    private List<UserResponse> userToResponses(List<UserEntity> users) {
-        return users.stream()
-                .map(user -> {
-                    UserResponse userResponse = new UserResponse();
-                    BeanUtils.copyProperties(user, userResponse);
-                    return userResponse;
-                })
-                .collect(Collectors.toList());
-    }
+   
     
 
     

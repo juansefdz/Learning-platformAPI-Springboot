@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.MessageRequest;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse;
+import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Message;
+import com.simulacro.aprendizaje.domain.entities.UserEntity;
+import com.simulacro.aprendizaje.domain.repositories.CourseRepository;
 import com.simulacro.aprendizaje.domain.repositories.MessageRepository;
+import com.simulacro.aprendizaje.domain.repositories.UserRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ImessageService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 import jakarta.transaction.Transactional;
@@ -21,7 +25,13 @@ import lombok.AllArgsConstructor;
 public class MessageService implements ImessageService {
 
     @Autowired
-    private final MessageRepository messaggeRepository;
+    private final MessageRepository messageRepository;
+    
+    @Autowired
+    private final UserRepository userRepository; // Para buscar los usuarios
+
+    @Autowired
+    private final CourseRepository courseRepository; // Para buscar los cursos
 
     @Override
     public Page<MessageResponse> getAll(int page, int size, SortType sortType) {
@@ -29,7 +39,7 @@ public class MessageService implements ImessageService {
             page = 0;
 
         PageRequest pagination = PageRequest.of(page, size);
-        return this.messaggeRepository.findAll(pagination).map(this::entityToResponse);
+        return this.messageRepository.findAll(pagination).map(this::entityToResponse);
     }
 
     @Override
@@ -38,33 +48,48 @@ public class MessageService implements ImessageService {
     }
 
     private Message find(Long id) {
-        return this.messaggeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("messagge ID not found with this ID: " + id));
+        return this.messageRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Message ID not found with this ID: " + id));
     }
 
     @Override
     public MessageResponse create(MessageRequest request) {
-        Message messagge = this.requestToEntity(request);
-        return this.entityToResponse(this.messaggeRepository.save(messagge));
+        Message message = this.requestToEntity(request);
+        return this.entityToResponse(this.messageRepository.save(message));
     }
 
     @Override
     public MessageResponse update(MessageRequest request, Long id) {
-        Message messagge = this.find(id);
-        messagge = this.requestToEntity(request);
-        messagge.setIdMessage(id);
-        return this.entityToResponse(this.messaggeRepository.save(messagge));
+        Message message = this.find(id);
+        message = this.requestToEntity(request);
+        message.setIdMessage(id);
+        return this.entityToResponse(this.messageRepository.save(message));
     }
 
     @Override
     public void delete(Long id) {
-        this.messaggeRepository.delete(this.find(id));
+        this.messageRepository.delete(this.find(id));
     }
 
     private Message requestToEntity(MessageRequest request) {
-        Message messagge = new Message();
-        BeanUtils.copyProperties(request, messagge);
-        return messagge;
+        Message message = new Message();
+       
+        BeanUtils.copyProperties(request, message);
+        
+
+        UserEntity sender = userRepository.findById(request.getSenderId())
+                .orElseThrow(() -> new RuntimeException("Sender user not found with ID: " + request.getSenderId()));
+        UserEntity receiver = userRepository.findById(request.getReceiverId())
+                .orElseThrow(() -> new RuntimeException("Receiver user not found with ID: " + request.getReceiverId()));
+        Course course = courseRepository.findById(request.getCourseId())
+                .orElseThrow(() -> new RuntimeException("Course not found with ID: " + request.getCourseId()));
+        
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setCourse(course);
+        
+        
+        return message;
     }
 
     private MessageResponse entityToResponse(Message entity) {
@@ -77,5 +102,4 @@ public class MessageService implements ImessageService {
                 .courseId(entity.getCourse().getIdCourse())
                 .build();
     }
-
 }

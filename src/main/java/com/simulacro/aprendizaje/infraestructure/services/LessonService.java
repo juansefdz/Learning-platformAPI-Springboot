@@ -1,7 +1,6 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.LessonRequest;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse;
-import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse;
+
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
-import com.simulacro.aprendizaje.domain.entities.Enrrollment;
+
 import com.simulacro.aprendizaje.domain.entities.Lesson;
 import com.simulacro.aprendizaje.domain.repositories.LessonRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ILessonService;

@@ -18,9 +18,8 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+
 
 @Entity(name = "assignment")
 @Data
@@ -42,12 +41,12 @@ public class Assignment {
     private String description;
 
     @Column(name = "due_date")
-    private Date dueDate;
+    private Date dueDateAssignment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id", referencedColumnName = "lesson_id")
     private Lesson lesson;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Submission> submissions = new ArrayList<>();
+    private  List<Submission> submissions = new ArrayList<>();
 }

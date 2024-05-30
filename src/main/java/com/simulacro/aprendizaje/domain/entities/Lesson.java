@@ -42,7 +42,10 @@ public class Lesson {
     @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     private Course course;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Assignment> assignments = new ArrayList<>();
-
 }

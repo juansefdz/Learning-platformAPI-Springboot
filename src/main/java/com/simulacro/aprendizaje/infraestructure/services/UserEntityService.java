@@ -71,6 +71,8 @@ public class UserEntityService implements IUserEntityService {
         userResponse.setSentMessages(messagesToResponses(entity.getSentMessages()));
         userResponse.setReceivedMessages(messagesToResponses(entity.getReceivedMessages()));
         userResponse.setSubmissions(submissionsToResponses(entity.getSubmissions()));
+        userResponse.setLessons(lessonToResponses(entity.getLessons()));
+       
         return userResponse;
     }
 
@@ -112,11 +114,14 @@ public class UserEntityService implements IUserEntityService {
 
     private List<MessageResponse> messagesToResponses(List<Message> messages) {
         return messages.stream()
-                       .map(message -> {
-                           MessageResponse messageResponse = new MessageResponse();
-                           BeanUtils.copyProperties(message, messageResponse);
-                           return messageResponse;
-                       })
+                       .map(message -> new MessageResponse(
+                            message.getIdMessage(),
+                            message.getMessageContent(),
+                            message.getSentDate(),
+                            message.getSender().getIdUser(), 
+                            message.getReceiver().getIdUser(), 
+                            message.getCourse().getIdCourse() 
+                       ))
                        .collect(Collectors.toList());
     }
 
@@ -129,4 +134,15 @@ public class UserEntityService implements IUserEntityService {
                           })
                           .collect(Collectors.toList());
     }
+    private List<LessonResponse> lessonToResponses(List<Lesson> lessons) {
+        return lessons.stream()
+                          .map(lesson -> {
+                                LessonResponse lessonResponse = new LessonResponse();
+                              BeanUtils.copyProperties(lesson, lessonResponse);
+                              return lessonResponse;
+                          })
+                          .collect(Collectors.toList());
+    }
+
+    
 }
