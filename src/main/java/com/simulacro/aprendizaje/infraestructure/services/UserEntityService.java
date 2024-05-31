@@ -134,12 +134,20 @@ public class UserEntityService implements IUserEntityService {
                     messageResponse.setMessageId(message.getIdMessage());
                     messageResponse.setSenderId(message.getSender().getIdUser());
                     messageResponse.setReceiverId(message.getReceiver().getIdUser());
-                    messageResponse.setCourseId(message.getCourse().getIdCourse());
+                    
+                    
+                    if (message.getCourse() != null) {
+                        messageResponse.setCourseId(message.getCourse().getIdCourse());
+                    } else {
+                        messageResponse.setCourseId(null); 
+                    }
+                    
                     messageResponse.setDate(message.getSentDate());
                     return messageResponse;
                 })
                 .collect(Collectors.toList());
     }
+    
 
     private List<LessonResponseInUser> lessonsToResponse(List<Lesson> lessons) {
         return lessons.stream()

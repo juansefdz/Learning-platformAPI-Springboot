@@ -93,13 +93,18 @@ public class MessageService implements ImessageService {
     }
 
     private MessageResponse entityToResponse(Message entity) {
-        return MessageResponse.builder()
+        MessageResponse.MessageResponseBuilder responseBuilder = MessageResponse.builder()
                 .messageId(entity.getIdMessage())
                 .messageContent(entity.getMessageContent())
                 .date(entity.getSentDate())
                 .senderId(entity.getSender().getIdUser())
-                .receiverId(entity.getReceiver().getIdUser())
-                .courseId(entity.getCourse().getIdCourse())
-                .build();
+                .receiverId(entity.getReceiver().getIdUser());
+    
+        if (entity.getCourse() != null) {
+            responseBuilder.courseId(entity.getCourse().getIdCourse());
+        }
+
+        return responseBuilder.build();
     }
+    
 }

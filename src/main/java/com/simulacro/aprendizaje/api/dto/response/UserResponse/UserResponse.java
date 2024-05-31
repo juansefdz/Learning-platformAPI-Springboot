@@ -27,6 +27,8 @@ public class UserResponse {
     @Schema(description = "Role of the user") // SWAGGER
     private Role role;
 
+    
+
     @Schema(description = "List of courses related to the user") // SWAGGER
     private List<CourseResponseInUser> courses;
 
