@@ -11,7 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.simulacro.aprendizaje.api.dto.request.CourseRequest;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
-import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse.EnrollmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse.EnrollmentResponseInCourse;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse.LessonResponseIncourse;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse.LessonResponse;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
@@ -82,8 +83,8 @@ public class CourseService implements ICourseService {
                 .courseName(course.getCourseName())
                 .description(course.getDescription())
                 .idInstructor(course.getInstructor().getIdUser())
-                .enrollments(enrollmentsToResponses(course.getEnrollments()))
-                .lessons(lessonsToResponses(course.getLessons()))
+                .enrollments(enrollmentResponseInCourse(course.getEnrollments()))
+                .lessons(lessonResponseIncourse(course.getLessons()))
                 .messages(messagesToResponses(course.getMessages()))  
                 .build();
     }
@@ -105,22 +106,23 @@ public class CourseService implements ICourseService {
     
 
 
-    private List<LessonResponse> lessonsToResponses(List<Lesson> lessons) {
+    private List<LessonResponseIncourse> lessonResponseIncourse(List<Lesson> lessons) {
         return lessons.stream()
                 .map(lesson -> {
-                    LessonResponse lessonResponse = new LessonResponse();
-                    BeanUtils.copyProperties(lesson, lessonResponse);
-                    return lessonResponse;
+                    LessonResponseIncourse lessonResponseIncourse = new LessonResponseIncourse();
+                    BeanUtils.copyProperties(lesson, lessonResponseIncourse);
+                    return lessonResponseIncourse;
                 })
                 .collect(Collectors.toList());
     }
 
-    private List<EnrollmentResponse> enrollmentsToResponses(List<Enrollment> enrollments) {
+    private List<EnrollmentResponseInCourse> enrollmentResponseInCourse(List<Enrollment> enrollments) {
         return enrollments.stream()
                 .map(enrollment -> {
-                    EnrollmentResponse enrollmentResponse = new EnrollmentResponse();
-                    BeanUtils.copyProperties(enrollment, enrollmentResponse);
-                    return enrollmentResponse;
+                    EnrollmentResponseInCourse enrollmentResponseInCourse = new EnrollmentResponseInCourse();
+                    enrollmentResponseInCourse.setIdEnrollment(enrollment.getIdEnrollment());
+                    enrollmentResponseInCourse.setEnrollmentDate(enrollment.getEnrollmentDate());
+                    return enrollmentResponseInCourse;
                 })
                 .collect(Collectors.toList());
     }
@@ -130,10 +132,23 @@ public class CourseService implements ICourseService {
                 .map(message -> {
                     MessageResponse messageResponse = new MessageResponse();
                     BeanUtils.copyProperties(message, messageResponse);
+                    messageResponse.setMessageId(message.getIdMessage());
+                    messageResponse.setSenderId(message.getSender().getIdUser());
+                    messageResponse.setReceiverId(message.getReceiver().getIdUser());
+                    
+                    
+                    if (message.getCourse() != null) {
+                        messageResponse.setCourseId(message.getCourse().getIdCourse());
+                    } else {
+                        messageResponse.setCourseId(null); 
+                    }
+                    
+                    messageResponse.setDate(message.getSentDate());
                     return messageResponse;
                 })
                 .collect(Collectors.toList());
     }
+    
 
    
     

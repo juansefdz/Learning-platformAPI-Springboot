@@ -29,10 +29,10 @@ public class CourseResponse {
     private Long idInstructor;
 
     @Schema(description = "List of enrollments related to the course") // SWAGGER
-    private List<EnrollmentResponse> enrollments;
+    private List<EnrollmentResponseInCourse> enrollments;
 
     @Schema(description = "List of lessons related to the course") // SWAGGER
-    private List<LessonResponse> lessons;
+    private List<LessonResponseIncourse> lessons;
 
     @Schema(description = "List of messages related to the course") // SWAGGER
     private List<MessageResponse> messages;
