@@ -15,6 +15,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class AssignmentRequest {
 
+    
+    private String idAssignment;
     @Schema(description = "Title of the assignment", example = "Math homework") // SWAGGER
     private String assignmentTitle;
 
