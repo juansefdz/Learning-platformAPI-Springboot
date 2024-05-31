@@ -22,9 +22,8 @@ import com.simulacro.aprendizaje.utils.enums.SortType;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
@@ -32,13 +31,28 @@ import lombok.AllArgsConstructor;
 @RequestMapping(path = "/users")
 @AllArgsConstructor
 @Tag(name = "User Entity Controller") // SWAGGER
-@Controller
 public class UserEntityController {
 
     @Autowired
     private final IUserEntityService objIUserEntityService;
 
-    @Operation(summary = "Get all users") // SWAGGER
+
+    /*----------------------------
+     * GET ALL
+     * ----------------------------
+     */
+
+    @Operation(
+        summary = "Displays all Users",
+        description = "Displays the users in a list, it is configured to display 10 items per page. "
+    ) // SWAGGER
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved User List"),
+        @ApiResponse(responseCode = "400", description = "Bad Request"),
+        @ApiResponse(responseCode = "401", description = "Not authorized to view the list of users. Invalid token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden access"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+    })// SWAGGER
     @GetMapping
     public ResponseEntity<Page<UserResponse>> getAll(
             @Parameter(description = "Page number (default: 1)", example = "1") // SWAGGER
@@ -49,49 +63,99 @@ public class UserEntityController {
         return ResponseEntity.ok(this.objIUserEntityService.getAll(page - 1, size, SortType.NONE));
     }
 
-    @Operation(summary = "Get user by ID") // SWAGGER
-    @ApiResponse(responseCode = "200", description = "User found", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))
-    })
-    @ApiResponse(responseCode = "404", description = "User not found") // SWAGGER
+    /*------------------------------
+     * GET BY ID
+     * -----------------------------
+     */
+
+     @Operation(
+        summary = "Displays one user by id",
+        description = "Shows the user by the ID sent or requested by path,value cannot be less than 1."
+    ) //SWAGGER
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved User"),
+        @ApiResponse(responseCode = "400", description = "Bad Request"),
+        @ApiResponse(responseCode = "401", description = "Not authorized to view the user. Invalid token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden access"),
+        @ApiResponse(responseCode = "404", description = "User not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+    })// SWAGGER
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserResponse> getById(
-            @Parameter(description = "User ID") // SWAGGER
+            @Parameter(description = "User ID",example = "1") // SWAGGER
             @PathVariable Long id) {
 
         return ResponseEntity.ok(this.objIUserEntityService.getById(id));
     }
 
-    @Operation(summary = "Create a new user") // SWAGGER
-    @ApiResponse(responseCode = "200", description = "User created", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))
-    })
+    /*--------------------
+     * CREATE USER
+     * -------------------
+     */
+
+     @Operation(
+        summary = "creates a new user",
+        description = "create a new user by entering the required data"
+    ) //SWAGGER
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Successfully created User"),
+        @ApiResponse(responseCode = "400", description = "Bad Request"),
+        @ApiResponse(responseCode = "401", description = "Not authorized to create a user. Invalid token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden access"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+    })//SWAGGER
     @PostMapping(path = "/create")
     public ResponseEntity<UserResponse> create(
             @Validated @RequestBody UserRequest request) {
         return ResponseEntity.ok(this.objIUserEntityService.create(request));
     }
 
-    @Operation(summary = "Delete user by ID") // SWAGGER
-    @ApiResponse(responseCode = "204", description = "User deleted")
-    @ApiResponse(responseCode = "404", description = "User not found") // SWAGGER
+    /*----------------------
+     * DELETE USER
+     * ---------------------
+     */
+
+     @Operation(
+        summary = "Delete user by ID",
+        description = "deletes an user based on an ID to be sent by Path,value cannot be less than 1"
+    ) //SWAGGER
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully deleted User"),
+        @ApiResponse(responseCode = "400", description = "Bad Request"),
+        @ApiResponse(responseCode = "401", description = "Not authorized to delete the user. Invalid token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden access"),
+        @ApiResponse(responseCode = "404", description = "User not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+    }) //SWAGGER
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<Void> delete(
-            @Parameter(description = "User ID") // SWAGGER
+            @Parameter(description = "User ID",example = "1") // SWAGGER
             @PathVariable Long id) {
         this.objIUserEntityService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Update user by ID") // SWAGGER
-    @ApiResponse(responseCode = "200", description = "User updated", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))
-    })
-    @ApiResponse(responseCode = "404", description = "User not found") // SWAGGER
+    /*----------------------
+     * UPDATE USER
+     * ---------------------
+     */
+
+     @Operation(
+        summary = "update  user by ID",
+        description = "updates a previously created user and the ID and the new modified parameters must be sent through the Path, value cannot be less than 1"
+    ) //SWAGGER
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully updated User"),
+        @ApiResponse(responseCode = "400", description = "Bad Request"),
+        @ApiResponse(responseCode = "401", description = "Not authorized to update the user. Invalid token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden access"),
+        @ApiResponse(responseCode = "404", description = "User not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+    }) //SWAGGER
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<UserResponse> update(
             @Validated @RequestBody UserRequest request,
-            @Parameter(description = "User ID") // SWAGGER
+            @Parameter(description = "User ID",example = "1") // SWAGGER
             @PathVariable Long id) {
         return ResponseEntity.ok(this.objIUserEntityService.update(request, id));
     }
