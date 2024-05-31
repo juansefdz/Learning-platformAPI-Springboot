@@ -28,10 +28,10 @@ public class MessageService implements ImessageService {
     private final MessageRepository messageRepository;
     
     @Autowired
-    private final UserRepository userRepository; // Para buscar los usuarios
+    private final UserRepository userRepository; 
 
     @Autowired
-    private final CourseRepository courseRepository; // Para buscar los cursos
+    private final CourseRepository courseRepository; 
 
     @Override
     public Page<MessageResponse> getAll(int page, int size, SortType sortType) {
@@ -57,19 +57,19 @@ public class MessageService implements ImessageService {
         Message message = this.requestToEntity(request);
         return this.entityToResponse(this.messageRepository.save(message));
     }
-
     @Override
     public MessageResponse update(MessageRequest request, Long id) {
-        Message message = this.find(id);
-        message = this.requestToEntity(request);
-        message.setIdMessage(id);
-        return this.entityToResponse(this.messageRepository.save(message));
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
     public void delete(Long id) {
-        this.messageRepository.delete(this.find(id));
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
+
+    
 
     private Message requestToEntity(MessageRequest request) {
         Message message = new Message();
@@ -106,5 +106,7 @@ public class MessageService implements ImessageService {
 
         return responseBuilder.build();
     }
+
+   
     
 }
