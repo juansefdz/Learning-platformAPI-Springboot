@@ -1,5 +1,6 @@
 package com.simulacro.aprendizaje.api.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -13,15 +14,23 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class UpdateUserRequest {
     
-    @NotBlank(message = "The username is required")
-    @Size(max = 50, message = "The userName must have a maximum of 50 characters")
+    @Schema(description = "Username of the user", example = "john_doe") // SWAGGER
+    @NotBlank(message = "The username is required") // Validación
+    @Size(max = 50, message = "The userName must have a maximum of 50 characters") // Validación
     private String userName;
-    @NotBlank(message = "The password is required")
+
+    @Schema(description = "Password of the user") // SWAGGER
+    @NotBlank(message = "The password is required") // Validación
     private String password;
-    @NotBlank(message = "The email is required")
-    @Size(max = 100, message = "The email must have a maximum of 100 characters")
+
+    @Schema(description = "Email of the user", example = "john@example.com") // SWAGGER
+    @NotBlank(message = "The email is required") // Validación
+    @Size(max = 100, message = "The email must have a maximum of 100 characters") // Validación
     private String email;
-    @NotBlank(message = "The fullName is required")
-    @Size(max = 100, message = "The fullName must have a maximum of 100 characters")
+
+    @Schema(description = "Full name of the user", example = "John Doe") // SWAGGER
+    @NotBlank(message = "The fullName is required") // Validación
+    @Size(max = 100, message = "The fullName must have a maximum of 100 characters") // Validación
     private String fullName;
 }
+
