@@ -2,6 +2,8 @@ package com.simulacro.aprendizaje.api.dto.request;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,11 @@ public class AssignmentRequest {
 
     
     private String idAssignment;
+
     @Schema(description = "Title of the assignment", example = "Math homework") // SWAGGER
+    @NotBlank(message = "The assignment title is required") //validation
+    @Size(max = 100, message = "The assignment title must have a maximum of 100 characters") //validation
+    private String lessonTitle;
     private String assignmentTitle;
 
     @Schema(description = "Description of the assignment", example = "Solve exercises 1 to 10") // SWAGGER
