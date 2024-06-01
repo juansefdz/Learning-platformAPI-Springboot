@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.simulacro.aprendizaje.api.dto.request.UserRequest;
 import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.LessonsResponseInAssignment;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.CourseResponseInUser;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.EnrollmentResponseInUser;
@@ -38,9 +39,7 @@ public class UserEntityService implements IUserEntityService {
 
     @Override
     public Page<UserResponse> getAll(int page, int size, SortType sortType) {
-        if (page < 0)
-            page = 0;
-
+        if (page < 0) page = 0;
         PageRequest pagination = PageRequest.of(page, size);
         return this.userRepository.findAll(pagination).map(this::entityToResponse);
     }
@@ -54,20 +53,10 @@ public class UserEntityService implements IUserEntityService {
     @Override
     public UserResponse update(UserRequest request, Long id) {
         UserEntity user = this.find(id);
-
-        if (request.getUserName() != null) {
-            user.setUserName(request.getUserName());
-        }
-        if (request.getEmail() != null) {
-            user.setEmail(request.getEmail());
-        }
-        if (request.getPassword() != null) {
-            user.setPassword(request.getPassword());
-        }
-        if (request.getFullName() != null) {
-            user.setFullName(request.getFullName());
-        }
-
+        if (request.getUserName() != null) user.setUserName(request.getUserName());
+        if (request.getEmail() != null) user.setEmail(request.getEmail());
+        if (request.getPassword() != null) user.setPassword(request.getPassword());
+        if (request.getFullName() != null) user.setFullName(request.getFullName());
         return this.entityToResponse(this.userRepository.save(user));
     }
 
@@ -108,10 +97,8 @@ public class UserEntityService implements IUserEntityService {
         return enrollments.stream()
                 .map(enrollment -> {
                     EnrollmentResponseInUser enrollmentResponseInUser = new EnrollmentResponseInUser();
-
                     enrollmentResponseInUser.setIdEnrollment(enrollment.getIdEnrollment());
                     enrollmentResponseInUser.setEnrollmentDate(enrollment.getEnrollmentDate());
-
                     return enrollmentResponseInUser;
                 })
                 .collect(Collectors.toList());
@@ -134,29 +121,25 @@ public class UserEntityService implements IUserEntityService {
                     messageResponse.setMessageId(message.getIdMessage());
                     messageResponse.setSenderId(message.getSender().getIdUser());
                     messageResponse.setReceiverId(message.getReceiver().getIdUser());
-                    
-                    
                     if (message.getCourse() != null) {
                         messageResponse.setCourseId(message.getCourse().getIdCourse());
                     } else {
                         messageResponse.setCourseId(null); 
                     }
-                    
                     messageResponse.setDate(message.getSentDate());
                     return messageResponse;
                 })
                 .collect(Collectors.toList());
     }
-    
 
     private List<LessonResponseInUser> lessonsToResponse(List<Lesson> lessons) {
         return lessons.stream()
                 .map(lesson -> {
                     LessonResponseInUser lessonResponseInUser = new LessonResponseInUser();
-                    BeanUtils.copyProperties(lesson, lessonResponseInUser);
-
+                    lessonResponseInUser.setIdLesson(lesson.getIdLesson());
+                    lessonResponseInUser.setLessonTitle(lesson.getLessonTitle());
+                    lessonResponseInUser.setContent(lesson.getContent());
                     lessonResponseInUser.setAssignments(assignmentToResponse(lesson.getAssignments()));
-
                     return lessonResponseInUser;
                 })
                 .collect(Collectors.toList());
@@ -167,7 +150,6 @@ public class UserEntityService implements IUserEntityService {
                 .map(submission -> {
                     SubmissionResponseInUser submissionResponseInUser = new SubmissionResponseInUser();
                     BeanUtils.copyProperties(submission, submissionResponseInUser);
-
                     return submissionResponseInUser;
                 })
                 .collect(Collectors.toList());
@@ -177,8 +159,25 @@ public class UserEntityService implements IUserEntityService {
         return assignments.stream()
                 .map(assignment -> {
                     AssignmentResponse assignmentResponse = new AssignmentResponse();
-                    BeanUtils.copyProperties(assignment, assignmentResponse);
+                    assignmentResponse.setIdAssignment(assignment.getIdAssignment());
+                    assignmentResponse.setAssignmentTitle(assignment.getAssignmentTitle());
+                    assignmentResponse.setDescription(assignment.getDescription());
+                    assignmentResponse.setDueDateAssignment(assignment.getDueDateAssignment());
+                    assignmentResponse.setLessons(lessonsResponseInAssignments(List.of(assignment.getLesson())));
                     return assignmentResponse;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<LessonsResponseInAssignment> lessonsResponseInAssignments(List<Lesson> lessons) {
+        return lessons.stream()
+                .map(lesson -> {
+                    LessonsResponseInAssignment lessonsResponseInAssignment = new LessonsResponseInAssignment();
+                    lessonsResponseInAssignment.setLessonId(lesson.getIdLesson());
+                    lessonsResponseInAssignment.setLessonTitle(lesson.getLessonTitle());
+                    lessonsResponseInAssignment.setContent(lesson.getContent());
+                    lessonsResponseInAssignment.setCourseId(lesson.getCourse().getIdCourse());
+                    return lessonsResponseInAssignment;
                 })
                 .collect(Collectors.toList());
     }
