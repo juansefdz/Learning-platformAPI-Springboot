@@ -1,6 +1,5 @@
 package com.simulacro.aprendizaje.api.dto.errors;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ListErrorsResponse extends BaseErrorResponse {
-    private List<Map<String,String>> errors;
+    private List<Map<String, String>> errors;
 
-    
 }

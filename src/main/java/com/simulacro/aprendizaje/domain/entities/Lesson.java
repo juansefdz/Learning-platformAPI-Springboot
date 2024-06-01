@@ -1,6 +1,5 @@
 package com.simulacro.aprendizaje.domain.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -47,5 +46,5 @@ public class Lesson {
     private UserEntity user;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Assignment> assignments = new ArrayList<>();
+    private List<Assignment> assignments;
 }

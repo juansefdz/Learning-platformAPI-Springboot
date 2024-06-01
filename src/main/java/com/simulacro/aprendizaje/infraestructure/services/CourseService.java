@@ -1,9 +1,7 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +38,8 @@ public class CourseService implements ICourseService {
 
     @Override
     public Page<CourseResponse> getAll(int page, int size, SortType sortType) {
-        if (page < 0) page = 0;
+        if (page < 0)
+            page = 0;
 
         PageRequest pagination = PageRequest.of(page, size);
         return this.courseRepository.findAll(pagination).map(this::entityToResponse);
@@ -84,7 +83,7 @@ public class CourseService implements ICourseService {
                 .nameInstructor(course.getInstructor().getFullName())
                 .enrollments(enrollmentResponseInCourse(course.getEnrollments()))
                 .lessons(lessonResponseIncourse(course.getLessons()))
-                .messages(messagesToResponses(course.getMessages()))  
+                .messages(messagesToResponses(course.getMessages()))
                 .build();
     }
 
@@ -92,18 +91,16 @@ public class CourseService implements ICourseService {
         UserEntity instructor = userRepository.findById(request.getInstructorId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Instructor not found with ID: " + request.getInstructorId()));
-    
+
         Course course = Course.builder()
                 .courseName(request.getCourseName())
                 .description(request.getDescription())
                 .build();
-    
-        course.setInstructor(instructor); 
-    
+
+        course.setInstructor(instructor);
+
         return course;
     }
-    
-
 
     private List<LessonResponseIncourse> lessonResponseIncourse(List<Lesson> lessons) {
         return lessons.stream()
@@ -134,25 +131,17 @@ public class CourseService implements ICourseService {
                     messageResponse.setMessageId(message.getIdMessage());
                     messageResponse.setSenderId(message.getSender().getIdUser());
                     messageResponse.setReceiverId(message.getReceiver().getIdUser());
-                    
-                    
+
                     if (message.getCourse() != null) {
                         messageResponse.setCourseId(message.getCourse().getIdCourse());
                     } else {
-                        messageResponse.setCourseId(null); 
+                        messageResponse.setCourseId(null);
                     }
-                    
+
                     messageResponse.setDate(message.getSentDate());
                     return messageResponse;
                 })
                 .collect(Collectors.toList());
     }
-    
 
-   
-    
-
-    
-    
-   
 }

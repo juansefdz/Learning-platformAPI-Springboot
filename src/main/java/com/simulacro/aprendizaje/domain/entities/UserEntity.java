@@ -1,6 +1,6 @@
 package com.simulacro.aprendizaje.domain.entities;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import com.simulacro.aprendizaje.utils.enums.Role;
@@ -47,20 +47,20 @@ public class UserEntity {
     private Role role;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Course> courses = new ArrayList<>();
+    private List<Course> courses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrollment> enrollments = new ArrayList<>();
+    private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> sentMessages = new ArrayList<>();
+    private List<Message> sentMessages;
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> receivedMessages = new ArrayList<>();
+    private List<Message> receivedMessages;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Submission> submissions = new ArrayList<>();
+    private List<Submission> submissions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Lesson> lessons = new ArrayList<>();
+    private List<Lesson> lessons;
 }

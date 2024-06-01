@@ -2,8 +2,6 @@ package com.simulacro.aprendizaje.api.dto.response.CourseResponse;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
-import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse.EnrollmentResponse;
-import com.simulacro.aprendizaje.api.dto.response.LessonResponse.LessonResponse;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

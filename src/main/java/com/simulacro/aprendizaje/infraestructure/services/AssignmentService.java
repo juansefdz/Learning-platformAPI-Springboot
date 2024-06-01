@@ -1,12 +1,16 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.simulacro.aprendizaje.api.dto.request.AssignmentRequest;
 import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.LessonsResponseInAssignment;
 import com.simulacro.aprendizaje.domain.entities.Assignment;
+import com.simulacro.aprendizaje.domain.entities.Lesson;
 import com.simulacro.aprendizaje.domain.repositories.AssignmentRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IAssignmentService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
@@ -61,6 +65,11 @@ public class AssignmentService implements IAssignmentService {
 
     private AssignmentResponse entityToResponse(Assignment assignment) {
         return AssignmentResponse.builder()
+                .idAssignment(assignment.getIdAssignment())
+                .assignmentTitle(assignment.getAssignmentTitle())
+                .description(assignment.getDescription())
+                .dueDateAssignment(assignment.getDueDateAssignment())
+                .lessons(lessonsResponseInAssignments(List.of(assignment.getLesson())))
                 .build();
     }
 
@@ -69,6 +78,19 @@ public class AssignmentService implements IAssignmentService {
                 .build();
 
         return assignment;
+    }
+
+    private List<LessonsResponseInAssignment> lessonsResponseInAssignments(List<Lesson> lessons) {
+        return lessons.stream()
+                .map(lesson -> {
+                    LessonsResponseInAssignment lessonsResponseInAssignments = new LessonsResponseInAssignment();
+                    lessonsResponseInAssignments.setLessonId(lesson.getIdLesson());
+                    lessonsResponseInAssignments.setLessonTitle(lesson.getLessonTitle());
+                    lessonsResponseInAssignments.setContent(lesson.getContent());
+                    lessonsResponseInAssignments.setCourseId(lesson.getCourse().getIdCourse());
+                    return lessonsResponseInAssignments;
+                })
+                .collect(Collectors.toList());
     }
 
 }

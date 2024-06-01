@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -30,4 +31,5 @@ public class AssignmentRequest {
 
     @Schema(description = "Due date of the assignment", example = "2024-06-15") // SWAGGER
     private Date dueDateAssignment;
+
 }

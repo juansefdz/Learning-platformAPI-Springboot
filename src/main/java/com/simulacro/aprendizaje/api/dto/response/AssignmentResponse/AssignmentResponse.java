@@ -2,6 +2,7 @@ package com.simulacro.aprendizaje.api.dto.response.AssignmentResponse;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,7 @@ public class AssignmentResponse {
 
     @Schema(description = "Due date of the assignment") // SWAGGER
     private Date dueDateAssignment;
+
+    @Schema(description = "Lessons related to the assignment")
+    private List<LessonsResponseInAssignment> lessons;
 }
