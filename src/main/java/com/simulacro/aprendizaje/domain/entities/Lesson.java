@@ -39,11 +39,11 @@ public class Lesson {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
+    @JoinColumn(name = "fk_course_id", referencedColumnName = "course_id")
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "fk_user_id",referencedColumnName = "user_id")
     private UserEntity user;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)

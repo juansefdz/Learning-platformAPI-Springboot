@@ -44,7 +44,7 @@ public class Assignment {
     private Date dueDateAssignment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id", referencedColumnName = "lesson_id")
+    @JoinColumn(name = "fk_lesson_id", referencedColumnName = "lesson_id")
     private Lesson lesson;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)

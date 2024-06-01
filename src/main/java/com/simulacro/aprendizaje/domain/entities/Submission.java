@@ -1,5 +1,7 @@
 package com.simulacro.aprendizaje.domain.entities;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,11 +35,14 @@ public class Submission {
     @Column(name = "grade")
     private Double grade;
 
+    @Column(name = "submission_date")
+    private Date SubmissionDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "fk_user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignment_id", referencedColumnName = "assignment_id")
+    @JoinColumn(name = "fk_assignment_id", referencedColumnName = "assignment_id")
     private Assignment assignment;
 }

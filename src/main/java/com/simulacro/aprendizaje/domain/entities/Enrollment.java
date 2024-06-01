@@ -31,10 +31,10 @@ public class Enrollment {
     private Date enrollmentDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "fk_user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
+    @JoinColumn(name = "fk_course_id", referencedColumnName = "course_id")
     private Course course;
 }

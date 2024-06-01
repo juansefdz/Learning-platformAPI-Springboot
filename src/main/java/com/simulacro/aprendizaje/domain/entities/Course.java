@@ -40,7 +40,7 @@ public class Course {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "fk_instructor_id", referencedColumnName = "user_id")
     private UserEntity instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)

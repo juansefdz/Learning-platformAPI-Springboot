@@ -36,14 +36,14 @@ public class Message {
     private Date sentDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "fk_sender_id", referencedColumnName = "user_id")
     private UserEntity sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "fk_receiver_id", referencedColumnName = "user_id")
     private UserEntity receiver;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
+    @JoinColumn(name = "fk_course_id", referencedColumnName = "course_id")
     private Course course;
 }
