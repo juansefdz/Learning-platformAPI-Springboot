@@ -1,12 +1,17 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.SubmissionRequest;
 import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse.SubmissionResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ISubmissionService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
 
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
 public class SubmissionService implements ISubmissionService {
 
     @Override

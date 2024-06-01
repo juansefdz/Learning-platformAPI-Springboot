@@ -13,7 +13,6 @@ import com.simulacro.aprendizaje.api.dto.request.CourseRequest;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse.EnrollmentResponseInCourse;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse.LessonResponseIncourse;
-import com.simulacro.aprendizaje.api.dto.response.LessonResponse.LessonResponse;
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
 import com.simulacro.aprendizaje.domain.entities.Course;
 import com.simulacro.aprendizaje.domain.entities.Enrollment;
@@ -55,7 +54,6 @@ public class CourseService implements ICourseService {
     @Override
     public CourseResponse create(CourseRequest request) {
         Course course = this.requestToEntity(request);
-        course.setEnrollments(new ArrayList<>());
         return this.entityToResponse(this.courseRepository.save(course));
     }
 
