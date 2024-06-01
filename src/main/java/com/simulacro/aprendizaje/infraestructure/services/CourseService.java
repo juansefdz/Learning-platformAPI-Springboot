@@ -83,6 +83,7 @@ public class CourseService implements ICourseService {
                 .courseName(course.getCourseName())
                 .description(course.getDescription())
                 .idInstructor(course.getInstructor().getIdUser())
+                .nameInstructor(course.getInstructor().getFullName())
                 .enrollments(enrollmentResponseInCourse(course.getEnrollments()))
                 .lessons(lessonResponseIncourse(course.getLessons()))
                 .messages(messagesToResponses(course.getMessages()))  

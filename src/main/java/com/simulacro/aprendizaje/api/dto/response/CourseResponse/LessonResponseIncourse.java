@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LessonResponseIncourse {
 
+    private Long idLesson;
     private String lessonTitle;
     private String content;
 

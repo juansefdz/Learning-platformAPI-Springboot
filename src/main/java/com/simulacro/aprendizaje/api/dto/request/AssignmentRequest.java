@@ -23,7 +23,6 @@ public class AssignmentRequest {
     @Schema(description = "Title of the assignment", example = "Math homework") // SWAGGER
     @NotBlank(message = "The assignment title is required") //validation
     @Size(max = 100, message = "The assignment title must have a maximum of 100 characters") //validation
-    private String lessonTitle;
     private String assignmentTitle;
 
     @Schema(description = "Description of the assignment", example = "Solve exercises 1 to 10") // SWAGGER

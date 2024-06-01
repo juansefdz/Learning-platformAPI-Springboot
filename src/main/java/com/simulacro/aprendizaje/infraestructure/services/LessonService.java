@@ -15,10 +15,12 @@ import com.simulacro.aprendizaje.api.dto.request.LessonRequest;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse.AssignmentResponseInLesson;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse.CourseResponseInLesson;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse.LessonResponse;
+import com.simulacro.aprendizaje.api.dto.response.LessonResponse.UserResponseInLesson;
 import com.simulacro.aprendizaje.domain.entities.Assignment;
 import com.simulacro.aprendizaje.domain.entities.Course;
 
 import com.simulacro.aprendizaje.domain.entities.Lesson;
+import com.simulacro.aprendizaje.domain.entities.UserEntity;
 import com.simulacro.aprendizaje.domain.repositories.LessonRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ILessonService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
@@ -74,6 +76,7 @@ public class LessonService implements ILessonService {
         .lessonTitle(lesson.getLessonTitle())
         .content(lesson.getContent())
         .courses(courseResponseInLesson(lesson.getCourse()))
+        .users(userResponseInLesson(List.of(lesson.getUser())))
         .assignments(assignmentResponseInLesson(lesson.getAssignments()))
         .build();
     }
@@ -92,6 +95,7 @@ public class LessonService implements ILessonService {
         courseResponseInLesson.setCourseName(course.getCourseName());
         courseResponseInLesson.setDescription(course.getDescription());
         courseResponseInLesson.setInstructorId(course.getInstructor().getIdUser());
+        courseResponseInLesson.setInstructorName(course.getInstructor().getFullName());
         return courseResponseInLesson;
     }
 
@@ -99,10 +103,22 @@ public class LessonService implements ILessonService {
         return assignments.stream()
                 .map(assignment -> {
                     AssignmentResponseInLesson assignmentResponseInLesson = new AssignmentResponseInLesson();
-                    BeanUtils.copyProperties(assignment, assignmentResponseInLesson);
+                    assignmentResponseInLesson.setIdAssigment(assignment.getIdAssignment());
+                    assignmentResponseInLesson.setAssignmentTitle(assignment.getAssignmentTitle());
+                    assignmentResponseInLesson.setDescription(assignment.getDescription());
                     return assignmentResponseInLesson;
                 })
                 .collect(Collectors.toList());
+    }
+
+    private List<UserResponseInLesson> userResponseInLesson(List<UserEntity> users) {
+        return users.stream()
+            .map(user -> {
+                UserResponseInLesson userResponseInLesson = new UserResponseInLesson();
+                BeanUtils.copyProperties(user, userResponseInLesson);
+                return userResponseInLesson;
+            })
+            .collect(Collectors.toList());
     }
 
 

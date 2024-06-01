@@ -28,6 +28,9 @@ public class CourseResponse {
     @Schema(description = "ID of the instructor") // SWAGGER
     private Long idInstructor;
 
+    @Schema(description = "Name of the instructor") // SWAGGER
+    private String nameInstructor;
+
     @Schema(description = "List of enrollments related to the course") // SWAGGER
     private List<EnrollmentResponseInCourse> enrollments;
 
