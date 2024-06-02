@@ -1,6 +1,9 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.simulacro.aprendizaje.api.dto.request.EnrollmentRequest;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
+import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse.CourseResponseInEnrolment;
 import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse.EnrollmentResponse;
+import com.simulacro.aprendizaje.api.dto.response.EnrollmentResponse.UserResponseInEnrolment;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.UserResponse;
 import com.simulacro.aprendizaje.domain.entities.Enrollment;
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
@@ -98,8 +103,28 @@ public class EnrollmentService implements IEnrrollmentService {
         return EnrollmentResponse.builder()
                 .idEnrollment(enrollment.getIdEnrollment())
                 .enrollmentDate(enrollment.getEnrollmentDate())
-                .user(userResponse)
-                .course(courseResponse)
+                .user(userResponseInEnrolment(enrollment.getUser()))
+                .course(courseResponseInEnrolment(enrollment.getCourse()))
                 .build();
     }
+
+
+    private CourseResponseInEnrolment courseResponseInEnrolment(Course course) {
+        CourseResponseInEnrolment courseResponseInEnrolment = new CourseResponseInEnrolment();
+        courseResponseInEnrolment.setCourseId(course.getIdCourse());
+        courseResponseInEnrolment.setCourseName(course.getCourseName());
+        courseResponseInEnrolment.setDescription(course.getDescription());
+        courseResponseInEnrolment.setInstructorId(course.getInstructor().getIdUser());
+        return courseResponseInEnrolment;
+    }
+
+      private UserResponseInEnrolment userResponseInEnrolment(UserEntity users) {
+        
+                UserResponseInEnrolment userResponseInEnrollment = new UserResponseInEnrolment();
+                BeanUtils.copyProperties(users, userResponseInEnrollment);
+                return userResponseInEnrollment;
+         
+           
+    }
+
 }

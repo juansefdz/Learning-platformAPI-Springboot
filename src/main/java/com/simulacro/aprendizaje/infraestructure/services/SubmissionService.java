@@ -11,14 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.simulacro.aprendizaje.api.dto.request.SubmissionRequest;
-import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
-import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.LessonsResponseInAssignment;
-import com.simulacro.aprendizaje.api.dto.response.LessonResponse.UserResponseInLesson;
+
 import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse.AssignmentResponseInSubmission;
 import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse.SubmissionResponse;
 import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse.UserResponseInSubmission;
 import com.simulacro.aprendizaje.domain.entities.Assignment;
-import com.simulacro.aprendizaje.domain.entities.Lesson;
+
 import com.simulacro.aprendizaje.domain.entities.Submission;
 import com.simulacro.aprendizaje.domain.entities.UserEntity;
 import com.simulacro.aprendizaje.domain.repositories.SubmissionRepository;

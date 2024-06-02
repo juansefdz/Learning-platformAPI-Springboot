@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Date;
 import java.util.List;
 
-import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
-import com.simulacro.aprendizaje.api.dto.response.UserResponse.UserResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

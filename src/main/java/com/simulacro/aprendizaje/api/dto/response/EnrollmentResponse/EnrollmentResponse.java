@@ -24,8 +24,8 @@ public class EnrollmentResponse {
     private Date enrollmentDate;
 
     @Schema(description = "User enrolled in the course") // SWAGGER
-    private UserResponse user;
+    private UserResponseInEnrolment user;
 
     @Schema(description = "Course in which the user is enrolled") // SWAGGER
-    private CourseResponse course;
+    private CourseResponseInEnrolment course;
 }

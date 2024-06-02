@@ -24,5 +24,8 @@ public class EnrollmentRequest {
 
     @Schema(description = "Date of enrollment", example = "2024-06-01") // SWAGGER
     private Date enrollmentDate;
+
+    @Schema(description = "ID of the enrollment in which the user is being enrolled", example = "456") // SWAGGER
+    private Long enrollmentId;
 }
 
