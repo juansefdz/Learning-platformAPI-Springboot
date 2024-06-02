@@ -91,18 +91,9 @@ public class EnrollmentService implements IEnrrollmentService {
     private EnrollmentResponse entityToResponse(Enrollment enrollment) {
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(enrollment.getUser(), userResponse);
-        userResponse.setCourses(null);
-        userResponse.setEnrollments(null);
-        userResponse.setSentMessages(null);
-        userResponse.setReceivedMessages(null);
-        userResponse.setLessons(null);
-        userResponse.setSubmissions(null);
-
         CourseResponse courseResponse = new CourseResponse();
         BeanUtils.copyProperties(enrollment.getCourse(), courseResponse);
-        courseResponse.setEnrollments(null);
-        courseResponse.setLessons(null);
-        courseResponse.setMessages(null);
+       
 
         return EnrollmentResponse.builder()
                 .idEnrollment(enrollment.getIdEnrollment())
