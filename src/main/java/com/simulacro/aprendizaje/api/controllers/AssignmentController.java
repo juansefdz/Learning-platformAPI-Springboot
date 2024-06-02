@@ -78,7 +78,7 @@ public class AssignmentController {
         @ApiResponse(responseCode = "404", description = "Assignment not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{assigment_id}")
     public ResponseEntity<AssignmentResponse> getById(
         @Parameter(description = "Assignment ID", example = "1")
         @PathVariable Long id) {
@@ -124,7 +124,7 @@ public class AssignmentController {
         @ApiResponse(responseCode = "404", description = "Assignment not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/delete/{assigment_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "Assignment ID", example = "1")
         @PathVariable Long id) {
@@ -149,7 +149,7 @@ public class AssignmentController {
         @ApiResponse(responseCode = "404", description = "Assignment not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @PutMapping(path = "/update/{id}")
+    @PutMapping(path = "/update/{assigment_id}")
     public ResponseEntity<AssignmentResponse> update(
             @Validated @RequestBody AssignmentRequest request,
             @Parameter(description = "Assignment ID", example = "1")

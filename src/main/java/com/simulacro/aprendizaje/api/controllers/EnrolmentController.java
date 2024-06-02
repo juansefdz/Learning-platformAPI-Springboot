@@ -80,7 +80,7 @@ public class EnrolmentController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })// SWAGGER
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{enrolment_id}")
     public ResponseEntity<EnrollmentResponse> getById(
         @Parameter(description = "enrolment ID",example = "1") // SWAGGER
         @PathVariable Long id) {
@@ -126,7 +126,7 @@ public class EnrolmentController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     }) //SWAGGER
-    @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/delete/{enrolment_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "enrolment ID",example = "1") // SWAGGER
         @PathVariable Long id) {
@@ -151,7 +151,7 @@ public class EnrolmentController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     }) //SWAGGER
-    @PutMapping(path = "/update/{id}")
+    @PutMapping(path = "/update/{enrolment_id}")
 
     public ResponseEntity<EnrollmentResponse> update(
             @Validated @RequestBody EnrollmentRequest request,

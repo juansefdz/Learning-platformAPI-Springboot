@@ -77,7 +77,7 @@ public class MessageController {
         @ApiResponse(responseCode = "404", description = "Message not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{message_id}")
     public ResponseEntity<MessageResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(objImessageService.getById(id));
     }
@@ -103,27 +103,5 @@ public class MessageController {
         return ResponseEntity.ok(objImessageService.create(request));
     }
 
-    /*-------------------
-     * DELETE
-     * ------------------
-     */
-
-    @Operation(
-        summary = "Delete message by ID",
-        description = "Deletes a message based on an ID sent by path, value cannot be less than 1"
-    )
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully deleted Message"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to delete the message. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Message not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })
-
-    @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        objImessageService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+    
 }
