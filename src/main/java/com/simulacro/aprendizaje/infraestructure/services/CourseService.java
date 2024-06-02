@@ -56,11 +56,18 @@ public class CourseService implements ICourseService {
         return this.entityToResponse(this.courseRepository.save(course));
     }
 
-    @Override
+     @Override
     public CourseResponse update(CourseRequest request, Long id) {
         Course course = this.find(id);
-        course = this.requestToEntity(request);
-        course.setIdCourse(id);
+
+        if (request.getCourseName() != null) {
+            course.setCourseName(request.getCourseName());
+        }
+
+        if (request.getDescription() != null) {
+            course.setDescription(request.getDescription());
+        }
+
         return this.entityToResponse(this.courseRepository.save(course));
     }
 

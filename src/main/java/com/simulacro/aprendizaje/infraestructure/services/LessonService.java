@@ -56,10 +56,18 @@ public class LessonService implements ILessonService {
     @Override
     public LessonResponse update(LessonRequest request, Long id) {
         Lesson lesson = this.find(id);
-        lesson = this.requestToEntity(request);
-        lesson.setIdLesson(id);
+
+        if (request.getLessonTitle() != null) {
+            lesson.setLessonTitle(request.getLessonTitle());
+        }
+
+        if (request.getContent() != null) {
+            lesson.setContent(request.getContent());
+        }
+
         return this.entityToResponse(this.lessonRepository.save(lesson));
     }
+
 
     @Override
     public void delete(Long id) {

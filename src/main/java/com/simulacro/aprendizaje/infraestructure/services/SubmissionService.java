@@ -61,8 +61,6 @@ public class SubmissionService implements ISubmissionService {
     public SubmissionResponse update(SubmissionRequest request, Long id) {
         Submission submission = this.find(id);
             if (request.getContent() != null) submission.setContent(request.getContent());
-            if (request.getSubmissionDate() != null) submission.setSubmissionDate(request.getSubmissionDate());
-            if (request.getGrade() != null) submission.setGrade(request.getGrade());
         
         return this.entityToResponse(this.submisionRepository.save(submission));
     }
@@ -71,7 +69,6 @@ public class SubmissionService implements ISubmissionService {
     public void delete(Long id) {
         this.submisionRepository.delete(this.find(id));
     }
-
 
 
     private Submission requestToEntity(SubmissionRequest request) {

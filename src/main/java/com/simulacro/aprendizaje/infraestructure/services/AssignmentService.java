@@ -53,8 +53,19 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public AssignmentResponse update(AssignmentRequest request, Long id) {
         Assignment assignment = this.find(id);
-        assignment = this.requestToEntity(request);
-        assignment.setIdAssignment(id);
+
+        if (request.getAssignmentTitle() != null) {
+            assignment.setAssignmentTitle(request.getAssignmentTitle());
+        }
+
+        if (request.getDescription() != null) {
+            assignment.setDescription(request.getDescription());
+        }
+
+        if (request.getDueDateAssignment() != null) {
+            assignment.setDueDateAssignment(request.getDueDateAssignment());
+        }
+
         return this.entityToResponse(this.assignmentRepository.save(assignment));
     }
 

@@ -18,13 +18,13 @@ public class MessageRequest {
     @Schema(description = "Content of the message", example = "Hello, how are you?") // SWAGGER
     private String messageContent;
 
-    @Schema(description = "ID of the sender of the message", example = "123") // SWAGGER
+    @Schema(description = "ID of the sender of the message", example = "1") // SWAGGER
     private Long senderId;
 
-    @Schema(description = "ID of the receiver of the message", example = "456") // SWAGGER
+    @Schema(description = "ID of the receiver of the message", example = "1") // SWAGGER
     private Long receiverId;
 
-    @Schema(description = "ID of the course related to the message", example = "789") // SWAGGER
+    @Schema(description = "ID of the course related to the message", example = "1") // SWAGGER
     private Long courseId;
 }
 
