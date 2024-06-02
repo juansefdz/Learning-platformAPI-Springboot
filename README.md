@@ -1,7 +1,7 @@
 # Learning Platform API
 
 ## Introducción
-RIWI está desarrollando una plataforma de aprendizaje en línea para facilitar el acceso a
+plataforma de aprendizaje en línea para facilitar el acceso a
 cursos y materiales educativos. La plataforma debe permitir a los usuarios inscribirse en
 cursos, acceder al contenido, participar en evaluaciones y comunicarse con los
 instructores.
