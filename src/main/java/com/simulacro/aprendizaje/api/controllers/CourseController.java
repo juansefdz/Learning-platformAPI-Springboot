@@ -132,7 +132,7 @@ public class CourseController {
         @ApiResponse(responseCode = "404", description = "Course not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     }) //SWAGGER
-    @DeleteMapping(path = "/delete/{course_id}")
+    @DeleteMapping(path = "/{course_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "Course ID",example = "1") // SWAGGER
         @PathVariable Long id) {
@@ -158,7 +158,7 @@ public class CourseController {
         @ApiResponse(responseCode = "404", description = "Course not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     }) //SWAGGER
-    @PutMapping(path = "/update/{course_id}")
+    @PutMapping(path = "/{course_id}")
     public ResponseEntity<CourseResponse> update(
             @Validated @RequestBody CourseRequest request,
             @Parameter(description = "Course ID",example = "1") // SWAGGER

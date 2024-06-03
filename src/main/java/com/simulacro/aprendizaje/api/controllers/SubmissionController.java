@@ -131,7 +131,7 @@ public class SubmissionController {
         @ApiResponse(responseCode = "404", description = "Submission not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @DeleteMapping(path = "/delete/{submission_id}")
+    @DeleteMapping(path = "/{submission_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "Submission ID", example = "1")
         @PathVariable Long id) {
@@ -156,7 +156,7 @@ public class SubmissionController {
         @ApiResponse(responseCode = "404", description = "Submission not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @PutMapping(path = "/update/{submission_id}")
+    @PutMapping(path = "/{submission_id}")
     public ResponseEntity<SubmissionResponse> update(
             @Validated @RequestBody SubmissionRequest request,
             @Parameter(description = "Submission ID", example = "1")

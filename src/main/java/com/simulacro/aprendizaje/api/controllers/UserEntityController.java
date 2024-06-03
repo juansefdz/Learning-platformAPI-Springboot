@@ -129,7 +129,7 @@ public class UserEntityController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     }) //SWAGGER
-    @DeleteMapping(path = "/delete/{user_id}")
+    @DeleteMapping(path = "/{user_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "User ID",example = "1") // SWAGGER
         @PathVariable Long user_id) {
@@ -154,7 +154,7 @@ public class UserEntityController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     }) //SWAGGER
-    @PutMapping(path = "/update/{user_id}")
+    @PutMapping(path = "/{user_id}")
     public ResponseEntity<UserResponse> update(@Validated @RequestBody UserRequest request, 
         @Parameter(description = "User ID",example = "1") // SWAGGER
         @PathVariable Long user_id) {

@@ -129,7 +129,7 @@ public class LessonController {
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
 
-    @DeleteMapping(path = "/delete/{lesson_id}")
+    @DeleteMapping(path = "/{lesson_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "Lesson ID", example = "1")
         @PathVariable Long id) {
@@ -155,7 +155,7 @@ public class LessonController {
         @ApiResponse(responseCode = "404", description = "Lesson not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @PutMapping(path = "/update/{lesson_id}")
+    @PutMapping(path = "/{lesson_id}")
     public ResponseEntity<LessonResponse> update(
             @Validated @RequestBody LessonRequest request, 
             @Parameter(description = "Lesson ID", example = "1")
