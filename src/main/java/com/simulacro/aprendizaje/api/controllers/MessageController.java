@@ -3,7 +3,6 @@ package com.simulacro.aprendizaje.api.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.simulacro.aprendizaje.api.dto.request.MessageRequest;
+
 import com.simulacro.aprendizaje.api.dto.response.MessageResponse.MessageResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ImessageService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+import com.simulacro.aprendizaje.utils.exceptions.ResourceNotFoundException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,7 +34,7 @@ import lombok.AllArgsConstructor;
 @Tag(name = "Message Controller") // SWAGGER
 public class MessageController {
 
-    private final ImessageService objImessageService;
+    private final ImessageService imessageService;
 
     /*----------------
      * GET ALL
@@ -57,7 +58,7 @@ public class MessageController {
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "Number of items per page (default: 10)", example = "10")
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(objImessageService.getAll(page - 1, size, SortType.NONE));
+        return ResponseEntity.ok(imessageService.getAll(page - 1, size, SortType.NONE));
     }
 
     /*------------------
@@ -78,8 +79,15 @@ public class MessageController {
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
     @GetMapping(path = "/{message_id}")
-    public ResponseEntity<MessageResponse> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(objImessageService.getById(id));
+    public ResponseEntity<MessageResponse> getById(
+        @Parameter(description = "Message ID", example = "1")
+        @PathVariable Long message_id) {
+
+         MessageResponse message = imessageService.getById(message_id);
+        if (message == null) {
+            throw new ResourceNotFoundException("Assignment not found");
+        }
+        return ResponseEntity.ok(message);
     }
 
     /*----------------------
@@ -100,7 +108,7 @@ public class MessageController {
     @PostMapping(path = "/create")
     public ResponseEntity<MessageResponse> create(
             @Validated @RequestBody MessageRequest request) {
-        return ResponseEntity.ok(objImessageService.create(request));
+        return ResponseEntity.ok(imessageService.create(request));
     }
 
     

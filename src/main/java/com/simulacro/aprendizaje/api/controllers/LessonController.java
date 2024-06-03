@@ -18,6 +18,7 @@ import com.simulacro.aprendizaje.api.dto.request.LessonRequest;
 import com.simulacro.aprendizaje.api.dto.response.LessonResponse.LessonResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ILessonService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+import com.simulacro.aprendizaje.utils.exceptions.ResourceNotFoundException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,7 +35,7 @@ import lombok.AllArgsConstructor;
 public class LessonController {
 
     @Autowired
-    private final ILessonService objILessonService;
+    private final ILessonService iLessonService;
 
     /*--------------
      * GET ALL
@@ -58,7 +59,7 @@ public class LessonController {
             @Parameter(description = "Number of items per page (default: 10)", example = "10")
             @RequestParam(defaultValue = "10") int size) {
 
-        return ResponseEntity.ok(this.objILessonService.getAll(page - 1, size, SortType.NONE));
+        return ResponseEntity.ok(this.iLessonService.getAll(page - 1, size, SortType.NONE));
     }
 
     /*----------------
@@ -81,11 +82,14 @@ public class LessonController {
     @GetMapping(path = "/{lesson_id}")
     public ResponseEntity<LessonResponse> getById(
         @Parameter(description = "Lesson ID", example = "1")
-        @PathVariable Long id) {
+        @PathVariable Long lesson_id) {
 
-        return ResponseEntity.ok(this.objILessonService.getById(id));
+         LessonResponse lesson = iLessonService.getById(lesson_id);
+        if (lesson == null) {
+            throw new ResourceNotFoundException("Lesson not found");
+        }
+        return ResponseEntity.ok(lesson);
     }
-
     /*------------------
      * CREATE
      * -----------------
@@ -104,7 +108,7 @@ public class LessonController {
     @PostMapping(path = "/create")
     public ResponseEntity<LessonResponse> create(
             @Validated @RequestBody LessonRequest request) {
-        return ResponseEntity.ok(this.objILessonService.create(request));
+        return ResponseEntity.ok(this.iLessonService.create(request));
     }
 
     /*------------------
@@ -129,7 +133,7 @@ public class LessonController {
     public ResponseEntity<Void> delete(
         @Parameter(description = "Lesson ID", example = "1")
         @PathVariable Long id) {
-        this.objILessonService.delete(id);
+        this.iLessonService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -156,7 +160,7 @@ public class LessonController {
             @Validated @RequestBody LessonRequest request, 
             @Parameter(description = "Lesson ID", example = "1")
             @PathVariable Long id) {
-        return ResponseEntity.ok(this.objILessonService.update(request, id));
+        return ResponseEntity.ok(this.iLessonService.update(request, id));
     }
 
 }

@@ -18,6 +18,7 @@ import com.simulacro.aprendizaje.api.dto.request.UserRequest;
 import com.simulacro.aprendizaje.api.dto.response.UserResponse.UserResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IUserEntityService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+import com.simulacro.aprendizaje.utils.exceptions.ResourceNotFoundException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,22 +31,21 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "/users")
 @AllArgsConstructor
-@Tag(name = "User Entity Controller") // SWAGGER
+@Tag(name = "User Entity Controller")
 public class UserEntityController {
 
     @Autowired
     private final IUserEntityService objIUserEntityService;
 
-
-    /*----------------------------
+     /*----------------------------
      * GET ALL
      * ----------------------------
      */
 
     @Operation(
         summary = "Displays all Users",
-        description = "Displays the users in a list, it is configured to display 10 items per page. "
-    ) // SWAGGER
+        description = "Displays the Users in a list, it is configured to display 10 items per page."
+    )
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successfully retrieved User List"),
         @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -59,7 +59,6 @@ public class UserEntityController {
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "Number of items per page (default: 10)", example = "10") // SWAGGER
             @RequestParam(defaultValue = "10") int size) {
-
         return ResponseEntity.ok(this.objIUserEntityService.getAll(page - 1, size, SortType.NONE));
     }
 
@@ -68,7 +67,7 @@ public class UserEntityController {
      * -----------------------------
      */
 
-     @Operation(
+    @Operation(
         summary = "Displays one user by id",
         description = "Shows the user by the ID sent or requested by path,value cannot be less than 1."
     ) //SWAGGER
@@ -82,18 +81,22 @@ public class UserEntityController {
     })// SWAGGER
     @GetMapping(path = "/{user_id}")
     public ResponseEntity<UserResponse> getById(
-            @Parameter(description = "User ID",example = "1") // SWAGGER
-            @PathVariable Long id) {
+        @Parameter(description = "User ID",example = "1") // SWAGGER
+        @PathVariable Long user_id) {
 
-        return ResponseEntity.ok(this.objIUserEntityService.getById(id));
+        UserResponse user = this.objIUserEntityService.getById(user_id);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        return ResponseEntity.ok(user);
     }
 
-    /*--------------------
+     /*--------------------
      * CREATE USER
      * -------------------
      */
 
-     @Operation(
+    @Operation(
         summary = "creates a new user",
         description = "create a new user by entering the required data"
     ) //SWAGGER
@@ -105,8 +108,7 @@ public class UserEntityController {
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })//SWAGGER
     @PostMapping(path = "/create")
-    public ResponseEntity<UserResponse> create(
-            @Validated @RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> create(@Validated @RequestBody UserRequest request) {
         return ResponseEntity.ok(this.objIUserEntityService.create(request));
     }
 
@@ -115,7 +117,7 @@ public class UserEntityController {
      * ---------------------
      */
 
-     @Operation(
+    @Operation(
         summary = "Delete user by ID",
         description = "deletes an user based on an ID to be sent by Path,value cannot be less than 1"
     ) //SWAGGER
@@ -129,13 +131,13 @@ public class UserEntityController {
     }) //SWAGGER
     @DeleteMapping(path = "/delete/{user_id}")
     public ResponseEntity<Void> delete(
-            @Parameter(description = "User ID",example = "1") // SWAGGER
-            @PathVariable Long id) {
-        this.objIUserEntityService.delete(id);
-        return ResponseEntity.noContent().build();
+        @Parameter(description = "User ID",example = "1") // SWAGGER
+        @PathVariable Long user_id) {
+            this.objIUserEntityService.delete(user_id);
+            return ResponseEntity.noContent().build();
     }
 
-    /*----------------------
+     /*----------------------
      * UPDATE USER
      * ---------------------
      */
@@ -153,10 +155,9 @@ public class UserEntityController {
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     }) //SWAGGER
     @PutMapping(path = "/update/{user_id}")
-    public ResponseEntity<UserResponse> update(
-            @Validated @RequestBody UserRequest request,
-            @Parameter(description = "User ID",example = "1") // SWAGGER
-            @PathVariable Long id) {
-        return ResponseEntity.ok(this.objIUserEntityService.update(request, id));
+    public ResponseEntity<UserResponse> update(@Validated @RequestBody UserRequest request, 
+        @Parameter(description = "User ID",example = "1") // SWAGGER
+        @PathVariable Long user_id) {
+        return ResponseEntity.ok(this.objIUserEntityService.update(request, user_id));
     }
 }

@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "/enrolments")
 @AllArgsConstructor
-@Tag(name = "User Entity Controller") // SWAGGER
+@Tag(name = "Enrolment Entity Controller") // SWAGGER
 public class EnrolmentController {
      @Autowired
     private final IEnrrollmentService iEnrrollmentService;

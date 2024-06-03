@@ -1,6 +1,6 @@
 package com.simulacro.aprendizaje.api.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +19,8 @@ import com.simulacro.aprendizaje.api.dto.request.AssignmentRequest;
 import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IAssignmentService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+import com.simulacro.aprendizaje.utils.exceptions.ResourceNotFoundException;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,14 +28,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.AllArgsConstructor;
-
 @RestController
 @RequestMapping(path = "/assignments")
 @AllArgsConstructor
 @Tag(name = "Assignment Entity Controller", description = "Endpoints to handle assignments")
 public class AssignmentController {
 
-    @Autowired
     private final IAssignmentService iAssignmentService;
 
     /*----------------------------
@@ -58,7 +58,7 @@ public class AssignmentController {
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "Number of items per page (default: 10)", example = "10")
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(this.iAssignmentService.getAll(page - 1, size, SortType.NONE));
+        return ResponseEntity.ok(iAssignmentService.getAll(page - 1, size, SortType.NONE));
     }
 
     /*------------------------------
@@ -78,11 +78,16 @@ public class AssignmentController {
         @ApiResponse(responseCode = "404", description = "Assignment not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @GetMapping(path = "/{assigment_id}")
+    @GetMapping(path = "/{assignment_id}")
     public ResponseEntity<AssignmentResponse> getById(
         @Parameter(description = "Assignment ID", example = "1")
-        @PathVariable Long id) {
-        return ResponseEntity.ok(this.iAssignmentService.getById(id));
+        @PathVariable Long assignment_id) {
+
+         AssignmentResponse assignment = iAssignmentService.getById(assignment_id);
+        if (assignment == null) {
+            throw new ResourceNotFoundException("Assignment not found");
+        }
+        return ResponseEntity.ok(assignment);
     }
 
     /*--------------------
@@ -104,7 +109,7 @@ public class AssignmentController {
     @PostMapping(path = "/create")
     public ResponseEntity<AssignmentResponse> create(
             @Validated @RequestBody AssignmentRequest request) {
-        return ResponseEntity.ok(this.iAssignmentService.create(request));
+        return ResponseEntity.ok(iAssignmentService.create(request));
     }
 
      /*----------------------
@@ -124,11 +129,11 @@ public class AssignmentController {
         @ApiResponse(responseCode = "404", description = "Assignment not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @DeleteMapping(path = "/delete/{assigment_id}")
+    @DeleteMapping(path = "/delete/{assignment_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "Assignment ID", example = "1")
-        @PathVariable Long id) {
-        this.iAssignmentService.delete(id);
+        @PathVariable Long assignment_id) {
+        iAssignmentService.delete(assignment_id);
         return ResponseEntity.noContent().build();
     }
 
@@ -149,11 +154,11 @@ public class AssignmentController {
         @ApiResponse(responseCode = "404", description = "Assignment not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
     })
-    @PutMapping(path = "/update/{assigment_id}")
+    @PutMapping(path = "/update/{assignment_id}")
     public ResponseEntity<AssignmentResponse> update(
             @Validated @RequestBody AssignmentRequest request,
             @Parameter(description = "Assignment ID", example = "1")
-            @PathVariable Long id) {
-        return ResponseEntity.ok(this.iAssignmentService.update(request, id));
+            @PathVariable Long assignment_id) {
+        return ResponseEntity.ok(iAssignmentService.update(request, assignment_id));
     }
 }

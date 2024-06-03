@@ -18,6 +18,7 @@ import com.simulacro.aprendizaje.api.dto.request.CourseRequest;
 import com.simulacro.aprendizaje.api.dto.response.CourseResponse.CourseResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ICourseService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+import com.simulacro.aprendizaje.utils.exceptions.ResourceNotFoundException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -82,8 +83,13 @@ public class CourseController {
     @GetMapping(path = "/{course_id}")
     public ResponseEntity<CourseResponse> getById(
         @Parameter(description = "Course ID",example = "1") // SWAGGER
-        @PathVariable Long id) {
-        return ResponseEntity.ok(this.iCourseService.getById(id));
+        @PathVariable Long course_id) {
+        
+        CourseResponse course = iCourseService.getById(course_id);
+         if (course == null) {
+            throw new ResourceNotFoundException("Course not found");
+        }
+        return ResponseEntity.ok(course);
     }
 
     /*--------------------

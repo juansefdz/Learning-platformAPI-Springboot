@@ -18,6 +18,7 @@ import com.simulacro.aprendizaje.api.dto.request.SubmissionRequest;
 import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse.SubmissionResponse;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.ISubmissionService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+import com.simulacro.aprendizaje.utils.exceptions.ResourceNotFoundException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -80,10 +81,16 @@ public class SubmissionController {
     })
     @GetMapping(path = "/{submission_id}")
     public ResponseEntity<SubmissionResponse> getById(
-        @Parameter(description = "Submission ID", example = "1")
-        @PathVariable Long id) {
-        return ResponseEntity.ok(this.iSubmissionService.getById(id));
+        @Parameter(description = "Assignment ID", example = "1")
+        @PathVariable Long submission_id) {
+
+         SubmissionResponse submission = iSubmissionService.getById(submission_id);
+        if (submission == null) {
+            throw new ResourceNotFoundException("Submission not found");
+        }
+        return ResponseEntity.ok(submission);
     }
+
 
     /*--------------------
      * CREATE SUBMISSION
