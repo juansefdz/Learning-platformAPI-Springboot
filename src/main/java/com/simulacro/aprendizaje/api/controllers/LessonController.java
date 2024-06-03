@@ -46,11 +46,11 @@ public class LessonController {
         description = "Displays the lessons in a list, it is configured to display 10 items per page."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved Lesson List"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the list of lessons. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping
     public ResponseEntity<Page<LessonResponse>> getAll(
@@ -72,12 +72,11 @@ public class LessonController {
         description = "Shows the lesson by the ID sent or requested by path, value cannot be less than 1."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved Lesson"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the lesson. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Lesson not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping(path = "/{lesson_id}")
     public ResponseEntity<LessonResponse> getById(
@@ -99,11 +98,11 @@ public class LessonController {
         description = "Creates a new lesson by entering the required data"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Successfully created Lesson"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to create a lesson. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping(path = "/create")
     public ResponseEntity<LessonResponse> create(
@@ -121,12 +120,11 @@ public class LessonController {
         description = "Deletes a lesson based on an ID sent by path, value cannot be less than 1"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully deleted Lesson"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to delete the lesson. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Lesson not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
 
     @DeleteMapping(path = "/{lesson_id}")
@@ -148,12 +146,11 @@ public class LessonController {
         description = "Updates a previously created lesson. The ID and the new modified parameters must be sent through the path, value cannot be less than 1"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully updated Lesson"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to update the lesson. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Lesson not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PutMapping(path = "/{lesson_id}")
     public ResponseEntity<LessonResponse> update(

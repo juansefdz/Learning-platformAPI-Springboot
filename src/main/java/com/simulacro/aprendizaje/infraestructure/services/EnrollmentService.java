@@ -48,7 +48,8 @@ public class EnrollmentService implements IEnrrollmentService {
 
     @Override
     public EnrollmentResponse getById(Long id) {
-        return this.entityToResponse(this.find(id));
+       Enrollment enrollment = find (id);
+       return entityToResponse(enrollment);
     }
 
     @Override

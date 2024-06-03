@@ -46,11 +46,11 @@ public class MessageController {
         description = "Displays the messages in a list, it is configured to display 10 items per page."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved Message List"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the list of messages. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping
     public ResponseEntity<Page<MessageResponse>> getAll(
@@ -71,12 +71,11 @@ public class MessageController {
         description = "Shows the message by the ID sent or requested by path, value cannot be less than 1."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved Message"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the message. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Message not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping(path = "/{message_id}")
     public ResponseEntity<MessageResponse> getById(
@@ -99,11 +98,11 @@ public class MessageController {
         description = "Creates a new message by entering the required data"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Successfully created Message"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to create a message. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping(path = "/create")
     public ResponseEntity<MessageResponse> create(

@@ -1,5 +1,6 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
@@ -47,7 +48,8 @@ public class CourseService implements ICourseService {
 
     @Override
     public CourseResponse getById(Long id) {
-        return this.entityToResponse(this.find(id));
+        Course course = find (id);
+        return entityToResponse(course);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class CourseService implements ICourseService {
         return this.entityToResponse(this.courseRepository.save(course));
     }
 
-     @Override
+    @Override
     public CourseResponse update(CourseRequest request, Long id) {
         Course course = this.find(id);
 
@@ -110,45 +112,57 @@ public class CourseService implements ICourseService {
     }
 
     private List<LessonResponseIncourse> lessonResponseIncourse(List<Lesson> lessons) {
-        return lessons.stream()
-                .map(lesson -> {
-                    LessonResponseIncourse lessonResponseIncourse = new LessonResponseIncourse();
-                    BeanUtils.copyProperties(lesson, lessonResponseIncourse);
-                    return lessonResponseIncourse;
-                })
-                .collect(Collectors.toList());
+        if (lessons != null) {
+            return lessons.stream()
+                    .map(lesson -> {
+                        LessonResponseIncourse lessonResponseIncourse = new LessonResponseIncourse();
+                        BeanUtils.copyProperties(lesson, lessonResponseIncourse);
+                        return lessonResponseIncourse;
+                    })
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     private List<EnrollmentResponseInCourse> enrollmentResponseInCourse(List<Enrollment> enrollments) {
-        return enrollments.stream()
-                .map(enrollment -> {
-                    EnrollmentResponseInCourse enrollmentResponseInCourse = new EnrollmentResponseInCourse();
-                    enrollmentResponseInCourse.setIdEnrollment(enrollment.getIdEnrollment());
-                    enrollmentResponseInCourse.setEnrollmentDate(enrollment.getEnrollmentDate());
-                    return enrollmentResponseInCourse;
-                })
-                .collect(Collectors.toList());
+        if (enrollments != null) {
+            return enrollments.stream()
+                    .map(enrollment -> {
+                        EnrollmentResponseInCourse enrollmentResponseInCourse = new EnrollmentResponseInCourse();
+                        enrollmentResponseInCourse.setIdEnrollment(enrollment.getIdEnrollment());
+                        enrollmentResponseInCourse.setEnrollmentDate(enrollment.getEnrollmentDate());
+                        return enrollmentResponseInCourse;
+                    })
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     private List<MessageResponse> messagesToResponses(List<Message> messages) {
-        return messages.stream()
-                .map(message -> {
-                    MessageResponse messageResponse = new MessageResponse();
-                    BeanUtils.copyProperties(message, messageResponse);
-                    messageResponse.setMessageId(message.getIdMessage());
-                    messageResponse.setSenderId(message.getSender().getIdUser());
-                    messageResponse.setReceiverId(message.getReceiver().getIdUser());
+        if (messages != null) {
+            return messages.stream()
+                    .map(message -> {
+                        MessageResponse messageResponse = new MessageResponse();
+                        BeanUtils.copyProperties(message, messageResponse);
+                        messageResponse.setMessageId(message.getIdMessage());
+                        messageResponse.setSenderId(message.getSender().getIdUser());
+                        messageResponse.setReceiverId(message.getReceiver().getIdUser());
 
-                    if (message.getCourse() != null) {
-                        messageResponse.setCourseId(message.getCourse().getIdCourse());
-                    } else {
-                        messageResponse.setCourseId(null);
-                    }
+                        if (message.getCourse() != null) {
+                            messageResponse.setCourseId(message.getCourse().getIdCourse());
+                        } else {
+                            messageResponse.setCourseId(null);
+                        }
 
-                    messageResponse.setDate(message.getSentDate());
-                    return messageResponse;
-                })
-                .collect(Collectors.toList());
+                        messageResponse.setDate(message.getSentDate());
+                        return messageResponse;
+                    })
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
     }
 
 }

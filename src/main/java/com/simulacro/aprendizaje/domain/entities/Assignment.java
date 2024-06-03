@@ -1,6 +1,7 @@
 package com.simulacro.aprendizaje.domain.entities;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,5 +49,5 @@ public class Assignment {
     private Lesson lesson;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private  List<Submission> submissions;
+    private  List<Submission> submissions  = new ArrayList<>();
 }

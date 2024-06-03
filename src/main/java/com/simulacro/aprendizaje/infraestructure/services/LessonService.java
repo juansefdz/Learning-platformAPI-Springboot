@@ -44,7 +44,8 @@ public class LessonService implements ILessonService {
 
     @Override
     public LessonResponse getById(Long id) {
-        return this.entityToResponse(this.find(id));
+        Lesson lesson = find(id);
+        return entityToResponse(lesson);
     }
 
     @Override
@@ -80,13 +81,24 @@ public class LessonService implements ILessonService {
     }
 
     private LessonResponse entityToResponse(Lesson lesson) {
-        return LessonResponse.builder()
-        .lessonTitle(lesson.getLessonTitle())
-        .content(lesson.getContent())
-        .courses(courseResponseInLesson(lesson.getCourse()))
-        .users(userResponseInLesson(List.of(lesson.getUser())))
-        .assignments(assignmentResponseInLesson(lesson.getAssignments()))
-        .build();
+        LessonResponse lessonResponse = LessonResponse.builder()
+            .lessonTitle(lesson.getLessonTitle())
+            .content(lesson.getContent())
+            .build();
+        
+        if (lesson.getCourse() != null) {
+            lessonResponse.setCourses(courseResponseInLesson(lesson.getCourse()));
+        }
+        
+        if (lesson.getUser() != null) {
+            lessonResponse.setUsers(userResponseInLesson(List.of(lesson.getUser())));
+        }
+        
+        if (lesson.getAssignments() != null ) {
+            lessonResponse.setAssignments(assignmentResponseInLesson(lesson.getAssignments()));
+        }
+        
+        return lessonResponse;
     }
 
     private Lesson requestToEntity(LessonRequest request) {

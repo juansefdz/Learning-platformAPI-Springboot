@@ -47,11 +47,11 @@ public class SubmissionController {
         description = "Displays the Submissions in a list, it is configured to display 10 items per page."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved Submission List"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the list of Submissions. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping
     public ResponseEntity<Page<SubmissionResponse>> getAll(
@@ -72,12 +72,11 @@ public class SubmissionController {
         description = "Show the submission by the ID sent or requested by path, value cannot be less than 1."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved submission"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the submission. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Submission not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping(path = "/{submission_id}")
     public ResponseEntity<SubmissionResponse> getById(
@@ -102,11 +101,11 @@ public class SubmissionController {
         description = "Create a new Submission by entering the required data"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Successfully created Submission"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to create a Submission. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping(path = "/create")
     public ResponseEntity<SubmissionResponse> create(
@@ -124,12 +123,11 @@ public class SubmissionController {
         description = "Deletes a Submission based on an ID to be sent by Path, value cannot be less than 1"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully deleted Submission"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to delete the Submission. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Submission not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @DeleteMapping(path = "/{submission_id}")
     public ResponseEntity<Void> delete(
@@ -149,12 +147,11 @@ public class SubmissionController {
         description = "Updates a previously created Submission and the ID and the new modified parameters must be sent through the Path, value cannot be less than 1"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully updated Submission"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to update the Submission. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Submission not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PutMapping(path = "/{submission_id}")
     public ResponseEntity<SubmissionResponse> update(

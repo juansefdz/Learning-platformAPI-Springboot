@@ -47,12 +47,12 @@ public class UserEntityController {
         description = "Displays the Users in a list, it is configured to display 10 items per page."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved User List"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the list of users. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })// SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @GetMapping
     public ResponseEntity<Page<UserResponse>> getAll(
             @Parameter(description = "Page number (default: 1)", example = "1") // SWAGGER
@@ -72,13 +72,12 @@ public class UserEntityController {
         description = "Shows the user by the ID sent or requested by path,value cannot be less than 1."
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved User"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the user. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "User not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })// SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @GetMapping(path = "/{user_id}")
     public ResponseEntity<UserResponse> getById(
         @Parameter(description = "User ID",example = "1") // SWAGGER
@@ -101,12 +100,12 @@ public class UserEntityController {
         description = "create a new user by entering the required data"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Successfully created User"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to create a user. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })//SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @PostMapping(path = "/create")
     public ResponseEntity<UserResponse> create(@Validated @RequestBody UserRequest request) {
         return ResponseEntity.ok(this.objIUserEntityService.create(request));
@@ -122,13 +121,12 @@ public class UserEntityController {
         description = "deletes an user based on an ID to be sent by Path,value cannot be less than 1"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully deleted User"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to delete the user. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "User not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    }) //SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @DeleteMapping(path = "/{user_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "User ID",example = "1") // SWAGGER
@@ -147,13 +145,12 @@ public class UserEntityController {
         description = "updates a previously created user and the ID and the new modified parameters must be sent through the Path, value cannot be less than 1"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully updated User"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to update the user. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "User not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    }) //SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @PutMapping(path = "/{user_id}")
     public ResponseEntity<UserResponse> update(@Validated @RequestBody UserRequest request, 
         @Parameter(description = "User ID",example = "1") // SWAGGER

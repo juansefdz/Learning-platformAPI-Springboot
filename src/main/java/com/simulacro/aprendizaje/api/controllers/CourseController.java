@@ -48,12 +48,12 @@ public class CourseController {
         description = "Displays the Courses in a list, it is configured to display 10 items per page. "
     ) // SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved Course List"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the list of Courses. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })// SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @GetMapping
     public ResponseEntity<Page<CourseResponse>> getAll(
             @Parameter(description = "Page number (default: 1)", example = "1") // SWAGGER
@@ -73,13 +73,12 @@ public class CourseController {
         description = "Show the course by the ID sent or requested by path,value cannot be less than 1."
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved course"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the course. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "course not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })// SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @GetMapping(path = "/{course_id}")
     public ResponseEntity<CourseResponse> getById(
         @Parameter(description = "Course ID",example = "1") // SWAGGER
@@ -102,12 +101,12 @@ public class CourseController {
         description = "create a new Course by entering the required data"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Successfully created Course"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to create a Course. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })//SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @PostMapping(path = "/create")
     public ResponseEntity<CourseResponse> create(
             @Validated @RequestBody CourseRequest request) {
@@ -125,13 +124,12 @@ public class CourseController {
         description = "deletes an Course based on an ID to be sent by Path,value cannot be less than 1"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully deleted Course"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to delete the Course. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Course not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    }) //SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @DeleteMapping(path = "/{course_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "Course ID",example = "1") // SWAGGER
@@ -151,13 +149,12 @@ public class CourseController {
         description = "updates a previously created Course and the ID and the new modified parameters must be sent through the Path, value cannot be less than 1"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully updated Course"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to update the Course. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "Course not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    }) //SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @PutMapping(path = "/{course_id}")
     public ResponseEntity<CourseResponse> update(
             @Validated @RequestBody CourseRequest request,

@@ -86,6 +86,9 @@ public class AssignmentService implements IAssignmentService {
 
     private Assignment requestToEntity(AssignmentRequest request) {
         Assignment assignment = Assignment.builder()
+                .assignmentTitle(request.getAssignmentTitle())
+                .description(request.getDescription())
+                .dueDateAssignment(request.getDueDateAssignment())
                 .build();
 
         return assignment;
@@ -98,10 +101,19 @@ public class AssignmentService implements IAssignmentService {
                     lessonsResponseInAssignments.setLessonId(lesson.getIdLesson());
                     lessonsResponseInAssignments.setLessonTitle(lesson.getLessonTitle());
                     lessonsResponseInAssignments.setContent(lesson.getContent());
-                    lessonsResponseInAssignments.setCourseId(lesson.getCourse().getIdCourse());
+                    
+                   
+                    if (lesson.getCourse() != null) {
+                        lessonsResponseInAssignments.setCourseId(lesson.getCourse().getIdCourse());
+                    } else {
+                        
+                        lessonsResponseInAssignments.setCourseId(null); 
+                    }
+                    
                     return lessonsResponseInAssignments;
                 })
                 .collect(Collectors.toList());
     }
+    
 
 }

@@ -47,12 +47,12 @@ public class EnrolmentController {
         description = "Displays the enrolments in a list, it is configured to display 10 items per page. "
     ) // SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved enrolment List"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the list of enrolment. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })// SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @GetMapping
     public ResponseEntity<Page<EnrollmentResponse>> getAll(
             @Parameter(description = "Page number (default: 1)", example = "1") // SWAGGER
@@ -73,13 +73,12 @@ public class EnrolmentController {
         description = "Shows the enrolment by the ID sent or requested by path,value cannot be less than 1."
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved enrolment"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view the user. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "User not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })// SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @GetMapping(path = "/{enrolment_id}")
     public ResponseEntity<EnrollmentResponse> getById(
         @Parameter(description = "enrolment ID",example = "1") // SWAGGER
@@ -97,12 +96,12 @@ public class EnrolmentController {
         description = "create a new enrolment by entering the required data"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Successfully created enrolment"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to create a user. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    })//SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @PostMapping(path = "/create")
     public ResponseEntity<EnrollmentResponse> create(
             @Validated @RequestBody EnrollmentRequest request) {
@@ -119,13 +118,12 @@ public class EnrolmentController {
         description = "deletes an enrolment based on an ID to be sent by Path,value cannot be less than 1"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully deleted enrolment"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to delete the enrolment. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "User not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    }) //SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @DeleteMapping(path = "/{enrolment_id}")
     public ResponseEntity<Void> delete(
         @Parameter(description = "enrolment ID",example = "1") // SWAGGER
@@ -144,13 +142,12 @@ public class EnrolmentController {
         description = "updates a previously created enrolment and the ID and the new modified parameters must be sent through the Path, value cannot be less than 1"
     ) //SWAGGER
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully updated enrolment"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to update the enrolment. Invalid token"),
-        @ApiResponse(responseCode = "403", description = "Forbidden access"),
-        @ApiResponse(responseCode = "404", description = "User not found"),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error. Please contact support")
-    }) //SWAGGER
+        @ApiResponse(responseCode = "201", description = "SUCCESSFUL"),
+        @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+        @ApiResponse(responseCode = "401", description = "NOT AUTHORIZED"),
+        @ApiResponse(responseCode = "403", description = "FORBIDDEN ACCESS"),
+        @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
     @PutMapping(path = "/{enrolment_id}")
 
     public ResponseEntity<EnrollmentResponse> update(
