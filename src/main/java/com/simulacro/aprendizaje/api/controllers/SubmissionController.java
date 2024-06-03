@@ -81,7 +81,7 @@ public class SubmissionController {
     })
     @GetMapping(path = "/{submission_id}")
     public ResponseEntity<SubmissionResponse> getById(
-        @Parameter(description = "Assignment ID", example = "1")
+        @Parameter(description = "Submission ID", example = "1")
         @PathVariable Long submission_id) {
 
          SubmissionResponse submission = iSubmissionService.getById(submission_id);
