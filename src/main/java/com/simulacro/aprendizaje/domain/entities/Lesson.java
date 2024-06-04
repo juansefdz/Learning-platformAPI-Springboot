@@ -47,5 +47,6 @@ public class Lesson {
     private UserEntity user;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @Builder.Default
     private List<Assignment> assignments  = new ArrayList<>();
 }

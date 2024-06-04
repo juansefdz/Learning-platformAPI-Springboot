@@ -3,6 +3,7 @@ package com.simulacro.aprendizaje.api.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class AssignmentRequest {
 
-    
+    @NotNull(message = "The assignment ID is required") // Validation
     private String idAssignment;
 
     @Schema(description = "Title of the assignment", example = "Math homework") // SWAGGER
@@ -31,5 +32,7 @@ public class AssignmentRequest {
 
     @Schema(description = "Due date of the assignment", example = "2024-06-15") // SWAGGER
     private Date dueDateAssignment;
+    @NotNull(message = "The Lesson ID is required") // Validation
+    private Long idLesson;
 
 }

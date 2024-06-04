@@ -2,9 +2,8 @@ package com.simulacro.aprendizaje.api.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import com.simulacro.aprendizaje.domain.entities.Course; // Asegúrate de importar la clase Course correcta
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,8 +22,15 @@ public class LessonRequest {
     private String lessonTitle;
 
     @Schema(description = "Content of the lesson", example = "This lesson covers basic Java concepts.") // SWAGGER
+    @NotBlank(message = "The content is required") //validation
     private String content;
 
-    @Schema(description = "Course related to the lesson") // SWAGGER
-    private Course course;
+    @Schema(description = "ID of the course related to the lesson", example = "1") // SWAGGER
+    @NotNull(message = "The course ID is required") //validation
+    private Long courseId;
+
+    @Schema(description = "ID of the estudent related to the lesson", example = "1") // SWAGGER
+    @NotNull(message = "The estudent ID is required") //validation
+    private Long estudentId;
+
 }

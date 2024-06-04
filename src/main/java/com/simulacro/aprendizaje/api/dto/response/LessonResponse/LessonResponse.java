@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LessonResponse {
+    @Schema(description = "Id Lesson") // SWAGGER
+    private Long idLesson;
 
     @Schema(description = "Title of the lesson") // SWAGGER
     private String lessonTitle;

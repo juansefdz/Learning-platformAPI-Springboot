@@ -82,6 +82,7 @@ public class LessonService implements ILessonService {
 
     private LessonResponse entityToResponse(Lesson lesson) {
         LessonResponse lessonResponse = LessonResponse.builder()
+            .idLesson(lesson.getIdLesson())
             .lessonTitle(lesson.getLessonTitle())
             .content(lesson.getContent())
             .build();
@@ -135,7 +136,10 @@ public class LessonService implements ILessonService {
         return users.stream()
             .map(user -> {
                 UserResponseInLesson userResponseInLesson = new UserResponseInLesson();
-                BeanUtils.copyProperties(user, userResponseInLesson);
+                userResponseInLesson.setIdUser(user.getIdUser());
+                userResponseInLesson.setFullName(user.getFullName());
+                userResponseInLesson.setEmail(user.getEmail());
+                userResponseInLesson.setUserName(user.getUserName());
                 return userResponseInLesson;
             })
             .collect(Collectors.toList());

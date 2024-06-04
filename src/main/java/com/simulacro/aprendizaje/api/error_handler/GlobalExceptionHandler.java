@@ -73,13 +73,14 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public BaseErrorResponse handleGenericException(Exception ex) {
-        return BaseErrorResponse.builder()
-                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
-                .message(ex.getMessage())
-                .build();
-    }
+    // @ExceptionHandler(Exception.class)
+    // @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    // public BaseErrorResponse handleGenericException(Exception ex) {
+    //     return BaseErrorResponse.builder()
+    //             .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+    //             .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
+    //             .message(ex.getLocalizedMessage())
+                
+    //             .build();
+    // }
 }

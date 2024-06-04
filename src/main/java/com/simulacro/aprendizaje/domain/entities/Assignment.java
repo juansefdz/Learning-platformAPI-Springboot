@@ -49,5 +49,6 @@ public class Assignment {
     private Lesson lesson;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private  List<Submission> submissions  = new ArrayList<>();
 }

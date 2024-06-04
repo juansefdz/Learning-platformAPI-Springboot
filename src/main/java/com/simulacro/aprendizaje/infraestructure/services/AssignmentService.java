@@ -14,15 +14,15 @@ import com.simulacro.aprendizaje.domain.entities.Lesson;
 import com.simulacro.aprendizaje.domain.repositories.AssignmentRepository;
 import com.simulacro.aprendizaje.infraestructure.abstract_services.IAssignmentService;
 import com.simulacro.aprendizaje.utils.enums.SortType;
+
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-
 @Service
 @Transactional
 @AllArgsConstructor
 public class AssignmentService implements IAssignmentService {
 
-    @Autowired
     private final AssignmentRepository assignmentRepository;
 
     @Override
@@ -31,28 +31,28 @@ public class AssignmentService implements IAssignmentService {
             page = 0;
 
         PageRequest pagination = PageRequest.of(page, size);
-        return this.assignmentRepository.findAll(pagination).map(this::entityToResponse);
+        return assignmentRepository.findAll(pagination).map(this::entityToResponse);
     }
 
     @Override
     public AssignmentResponse getById(Long id) {
-        return this.entityToResponse(this.find(id));
+        return entityToResponse(find(id));
     }
 
     private Assignment find(Long id) {
-        return this.assignmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Assignment ID not found with this ID: " + id));
+        return assignmentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Assignment not found with ID: " + id));
     }
 
     @Override
     public AssignmentResponse create(AssignmentRequest request) {
-        Assignment assignment = this.requestToEntity(request);
-        return this.entityToResponse(this.assignmentRepository.save(assignment));
+        Assignment assignment = requestToEntity(request);
+        return entityToResponse(assignmentRepository.save(assignment));
     }
 
     @Override
     public AssignmentResponse update(AssignmentRequest request, Long id) {
-        Assignment assignment = this.find(id);
+        Assignment assignment = find(id);
 
         if (request.getAssignmentTitle() != null) {
             assignment.setAssignmentTitle(request.getAssignmentTitle());
@@ -66,12 +66,12 @@ public class AssignmentService implements IAssignmentService {
             assignment.setDueDateAssignment(request.getDueDateAssignment());
         }
 
-        return this.entityToResponse(this.assignmentRepository.save(assignment));
+        return entityToResponse(assignmentRepository.save(assignment));
     }
 
     @Override
     public void delete(Long id) {
-        this.assignmentRepository.delete(this.find(id));
+        assignmentRepository.delete(find(id));
     }
 
     private AssignmentResponse entityToResponse(Assignment assignment) {
@@ -85,35 +85,21 @@ public class AssignmentService implements IAssignmentService {
     }
 
     private Assignment requestToEntity(AssignmentRequest request) {
-        Assignment assignment = Assignment.builder()
+        return Assignment.builder()
                 .assignmentTitle(request.getAssignmentTitle())
                 .description(request.getDescription())
                 .dueDateAssignment(request.getDueDateAssignment())
                 .build();
-
-        return assignment;
     }
 
     private List<LessonsResponseInAssignment> lessonsResponseInAssignments(List<Lesson> lessons) {
         return lessons.stream()
-                .map(lesson -> {
-                    LessonsResponseInAssignment lessonsResponseInAssignments = new LessonsResponseInAssignment();
-                    lessonsResponseInAssignments.setLessonId(lesson.getIdLesson());
-                    lessonsResponseInAssignments.setLessonTitle(lesson.getLessonTitle());
-                    lessonsResponseInAssignments.setContent(lesson.getContent());
-                    
-                   
-                    if (lesson.getCourse() != null) {
-                        lessonsResponseInAssignments.setCourseId(lesson.getCourse().getIdCourse());
-                    } else {
-                        
-                        lessonsResponseInAssignments.setCourseId(null); 
-                    }
-                    
-                    return lessonsResponseInAssignments;
-                })
+                .map(lesson -> LessonsResponseInAssignment.builder()
+                        .lessonId(lesson.getIdLesson())
+                        .lessonTitle(lesson.getLessonTitle())
+                        .content(lesson.getContent())
+                        .courseId(lesson.getCourse() != null ? lesson.getCourse().getIdCourse() : null)
+                        .build())
                 .collect(Collectors.toList());
     }
-    
-
 }
