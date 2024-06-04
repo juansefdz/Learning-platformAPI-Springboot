@@ -1,7 +1,11 @@
 package com.simulacro.aprendizaje.infraestructure.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.simulacro.aprendizaje.api.dto.request.AssignmentRequest;
 import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.AssignmentResponse;
 import com.simulacro.aprendizaje.api.dto.response.AssignmentResponse.LessonsResponseInAssignment;
+import com.simulacro.aprendizaje.api.dto.response.CourseResponse.LessonResponseIncourse;
 import com.simulacro.aprendizaje.domain.entities.Assignment;
 import com.simulacro.aprendizaje.domain.entities.Lesson;
 import com.simulacro.aprendizaje.domain.repositories.AssignmentRepository;
@@ -18,6 +23,7 @@ import com.simulacro.aprendizaje.utils.enums.SortType;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -80,7 +86,7 @@ public class AssignmentService implements IAssignmentService {
                 .assignmentTitle(assignment.getAssignmentTitle())
                 .description(assignment.getDescription())
                 .dueDateAssignment(assignment.getDueDateAssignment())
-                .lessons(lessonsResponseInAssignments(List.of(assignment.getLesson())))
+                .lessons(lessonResponseInAssignment(assignment.getLesson()))
                 .build();
     }
 
@@ -92,14 +98,16 @@ public class AssignmentService implements IAssignmentService {
                 .build();
     }
 
-    private List<LessonsResponseInAssignment> lessonsResponseInAssignments(List<Lesson> lessons) {
-        return lessons.stream()
-                .map(lesson -> LessonsResponseInAssignment.builder()
-                        .lessonId(lesson.getIdLesson())
-                        .lessonTitle(lesson.getLessonTitle())
-                        .content(lesson.getContent())
-                        .courseId(lesson.getCourse() != null ? lesson.getCourse().getIdCourse() : null)
-                        .build())
-                .collect(Collectors.toList());
+   private List<LessonsResponseInAssignment> lessonResponseInAssignment(Lesson lesson) {
+    List<LessonsResponseInAssignment> responseList = new ArrayList<>();
+
+    if (lesson != null) {
+        LessonsResponseInAssignment lessonResponseInAssignment = new LessonsResponseInAssignment();
+        BeanUtils.copyProperties(lesson, lessonResponseInAssignment);
+        responseList.add(lessonResponseInAssignment);
     }
+
+    return responseList;
+}
+
 }

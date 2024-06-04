@@ -30,8 +30,8 @@ public class SubmissionResponse {
     private Date SubmissionDate;
 
     @Schema(description = "List of users related to the submission") // SWAGGER
-    private List<UserResponseInSubmission> users;
+    private Long idUser;
 
     @Schema(description = "List of assignments related to the submission") // SWAGGER
-    private List<AssignmentResponseInSubmission> assignments;
+    private Long idAssignment;
 }

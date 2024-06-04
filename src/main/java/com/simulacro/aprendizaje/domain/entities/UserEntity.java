@@ -3,6 +3,9 @@ package com.simulacro.aprendizaje.domain.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.util.Streamable;
+
+import com.simulacro.aprendizaje.api.dto.response.SubmissionResponse.SubmissionResponse;
 import com.simulacro.aprendizaje.utils.enums.Role;
 
 import jakarta.persistence.CascadeType;
@@ -70,4 +73,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Lesson> lessons = new ArrayList<>();
+
+    public Streamable<SubmissionResponse> stream() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'stream'");
+    }
 }

@@ -13,6 +13,7 @@ public class UserResponseInSubmission {
 
     private Long idUser;
     private String userName;
+    private String email;
     private String fullName;
 
     
